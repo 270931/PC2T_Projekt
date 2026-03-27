@@ -12,6 +12,8 @@ public class ProjektStart {
 
 	}
 	
+	
+	// bylo by mnohem lepší/bezpečnější udělat novou statickou třídu např. Handler/Databaze atd.
 	public void PridatZamenstnance(String skupina, String jmeno, String prijmeni, int rokNarozeni) {
 		
 		//generace ID
@@ -19,11 +21,14 @@ public class ProjektStart {
 		boolean prijatelneID = false;
 		while (!prijatelneID) {
 			ID = (int)(Math.random() * 1000);
-			if (ID > 100) {
+			
+			// checkuj, jestli je ID 3-místné číslo a.k.a. 100 až 999
+			if (ID > 99) {
 				prijatelneID = true;
 			}
+			
+			
 		}
-		
 		
 		
 	}
