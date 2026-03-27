@@ -1,11 +1,21 @@
 package main;
 
+import java.io.IOException;
+
 public class ProjektStart {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+
 		
-		System.out.print("N2co.");
+		
+		if (args.length == 0 || !args[0].equals("v_cmd")) {
+			Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"java -cp bin main.ProjektStart v_cmd\"");
+            System.exit(0); // Ukončíme původní běh v Eclipse
+        }
+		
+		System.out.print("Něco.");
+		
 		
 		Menu.MainMenu();
 		Menu.MainMenu();

@@ -4,8 +4,13 @@ import java.io.IOException;
 
 public class Menu {
 	
-	public static void MainMenu() {
-
+	public static void MainMenu() throws IOException, InterruptedException {
+		
+		
+		
+			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+		
+		
 		// TO DO: clear console
 		System.out.printf("\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
