@@ -1,7 +1,5 @@
 package main;
 
-import java.io.IOException;
-
 //		Struktura systému nabídek Menu
 //		
 //		-> MainMenu
@@ -29,7 +27,7 @@ public class Menu {
 	public static void MainMenu() {
 
 		// TO DO: clear console
-		System.out.printf("\n\n\n\n"+
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |        Databázový systém zaměstnanců        |\n"+
@@ -38,9 +36,9 @@ public class Menu {
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t | Prosím vyberte Vaši akci:                   |\n"+
 				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 1    Zaměstnanci a operace s nimi		    |\n"+
+				"\t\t\t\t | 1    Zaměstnanci a operace s nimi	       |\n"+
 				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 2    Statistiky						        |\n"+
+				"\t\t\t\t | 2    Statistiky		   	       |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t | 3    Souborové operace                      |\n"+
 				"\t\t\t\t |                                             |\n"+
@@ -49,6 +47,49 @@ public class Menu {
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n"
 			);
+	}
+	
+	public static void GeneralError(String errorMessage) {
+	    
+	    // Nadpis a horní okraj
+	    System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+	            "\t\t\t\t |                                             |\n"+
+	            "\t\t\t\t-+---------------------------------------------+-\n"+
+	            "\t\t\t\t |               Chyba programu                |\n"+
+	            "\t\t\t\t-+---------------------------------------------+-\n"+
+	            "\t\t\t\t |                                             |\n");
+	    
+	    String[] slova = errorMessage.split(" ");
+	    String newLine = "";
+	    
+	    for (int i = 0; i < slova.length; i++) {
+	        // Přidání mezery pokud je není prázný
+	        String mezera = newLine.isEmpty() ? "" : " ";
+	        
+	        // Jestliže se další slovo vejde do 43 znaků, tak ho přidáme
+	        if ((newLine + mezera + slova[i]).length() <= 43) {
+	            newLine += mezera + slova[i]; 
+	            
+	        } else {
+	            // pokud je řádek plný, print
+	            System.out.printf("\t\t\t\t | %-43s |\n", newLine);
+	            
+	            // Nový řádek začne se slovem co se v aktuálním cyklu nevešlo
+	            newLine = slova[i];
+	        }
+	    }
+	    
+	    // Pokud něco zbylo, vypíše se to zde
+	    if (!newLine.isEmpty()) {
+	        System.out.printf("\t\t\t\t | %-43s |\n", newLine);
+	    }
+	    
+	    // Spodní okraj
+	    System.out.printf(
+	            "\t\t\t\t |                                             |\n"+
+	            "\t\t\t\t-+---------------------------------------------+-\n"+
+	            "\t\t\t\t |                                             |\n"+
+	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
 
 }
