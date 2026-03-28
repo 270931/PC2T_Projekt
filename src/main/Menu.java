@@ -49,21 +49,24 @@ public class Menu {
 			);
 	}
 	
-	public static void GeneralError(String errorMessage) {
+	
+	/**
+	 * Standartní okno pro výpis chyby uživateli
+	 * @param errorHeader	Nadpis chyby (max. 43 znaků)
+	 * @param errorMessage	Zpráva pro uživatele, bez délkového omezení
+	 */
+	public static void GeneralError(String errorHeader, String errorMessage) {
 	    
-	    // Nadpis a horní okraj
-	    System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
-	            "\t\t\t\t |                                             |\n"+
-	            "\t\t\t\t-+---------------------------------------------+-\n"+
-	            "\t\t\t\t |               Chyba programu                |\n"+
-	            "\t\t\t\t-+---------------------------------------------+-\n"+
-	            "\t\t\t\t |                                             |\n");
+	    // Standardizovaný nadpis
+	    Menu.StandartHeader(errorHeader);
+	    
+	    
 	    
 	    String[] slova = errorMessage.split(" ");
 	    String newLine = "";
 	    
 	    for (int i = 0; i < slova.length; i++) {
-	        // Přidání mezery pokud je není prázný
+	        // Přidání mezery pokud nový řádek není prázný
 	        String mezera = newLine.isEmpty() ? "" : " ";
 	        
 	        // Jestliže se další slovo vejde do 43 znaků, tak ho přidáme
@@ -72,7 +75,14 @@ public class Menu {
 	            
 	        } else {
 	            // pokud je řádek plný, print
-	            System.out.printf("\t\t\t\t | %-43s |\n", newLine);
+	        	int padding = (43 - newLine.length())/2;
+	    		String pad = "";
+	    		for(int j = 0; j < padding; j++) {
+	    			pad += " ";
+	    		}
+	    		
+	    		pad += newLine;
+	            System.out.printf("\t\t\t\t | %-43s |\n", pad);
 	            
 	            // Nový řádek začne se slovem co se v aktuálním cyklu nevešlo
 	            newLine = slova[i];
@@ -81,7 +91,14 @@ public class Menu {
 	    
 	    // Pokud něco zbylo, vypíše se to zde
 	    if (!newLine.isEmpty()) {
-	        System.out.printf("\t\t\t\t | %-43s |\n", newLine);
+	    	int padding = (43 - newLine.length())/2;
+			String pad = "";
+			for(int j = 0; j < padding; j++) {
+				pad += " ";
+			}
+			
+			pad += newLine;
+	        System.out.printf("\t\t\t\t | %-43s |\n", pad);
 	    }
 	    
 	    // Spodní okraj
@@ -91,5 +108,53 @@ public class Menu {
 	            "\t\t\t\t |                                             |\n"+
 	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
+	
+	
+	/**
+	 * Vypíše do konzole standartní hlavičku dialogového okna
+	@param	header	Nadpis okna (max. 43 znaků)
+	 */
+	public static void StandartHeader(String header) {
+		
+		
+		// Dostanu počet mezer které jsou potřeba přidat zleva i z prava
+		int padding = (43 - header.length())/2;
+		String pad = "";
+		for(int i = 0; i < padding; i++) {
+			pad += " ";
+		}
+		
+		pad += header;
+		
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+	            "\t\t\t\t |                                             |\n"+
+	            "\t\t\t\t-+---------------------------------------------+-\n"+
+	            "\t\t\t\t | %-43s |\n"+
+	            "\t\t\t\t-+---------------------------------------------+-\n"+
+	            "\t\t\t\t |                                             |\n", pad);
+	}
+	
+	
+	public static void NovyZamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni) {
+
+		// TO DO: clear console
+		
+		Menu.StandartHeader("Nový zaměstnanec vytvořen.");
+		
+		System.out.printf(
+				"\t\t\t\t |           ID:   %-27d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |        Jméno:   %-27s |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |     Přijmení:   %-27s |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Rok narození:   %-27d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni
+			);
+	}
+	
+	
 
 }
