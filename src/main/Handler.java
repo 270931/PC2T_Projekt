@@ -55,7 +55,7 @@ public class Handler
 		System.out.print("\t\t\t\t |  \n");
 		
 		// dodělat rozdělení do skupin
-		int skupina;
+		int skupina = 0;
 		
 		if(sc.hasNextInt()) 
 		{
@@ -73,14 +73,14 @@ public class Handler
 		{
 			DatovyAnalytik a = new DatovyAnalytik(ID, jmeno, prijmeni, rokNarozeni);
 			databaze.add(a);
-			Menu.NovyZamestnanec(a.ID, a.Jmeno, a.Prijmeni, a.RokNarozeni);
+			Menu.NovyZamestnanec(a.ID, a.Jmeno, a.Prijmeni, a.RokNarozeni, skupina);
 			return true;
 		}
 		else if(skupina == 2) 
 		{
 			BezpecnostniSpecialista a = new BezpecnostniSpecialista(ID, jmeno, prijmeni, rokNarozeni);
 			databaze.add(a);
-			Menu.NovyZamestnanec(a.ID, a.Jmeno, a.Prijmeni, a.RokNarozeni);
+			Menu.NovyZamestnanec(a.ID, a.Jmeno, a.Prijmeni, a.RokNarozeni, skupina);
 			return true;
 		}
 		else 
