@@ -46,21 +46,26 @@ public class Handler
 		String jmeno=sc.next();
 		System.out.print("\t\t\t\t |  \n");
 		
-		System.out.printf("\t\t\t\t |  Přijmení zaměstnance s ID %d: ", ID);
+		System.out.printf("\t\t\t\t |  Přijmení nového zaměstnance: ");
 		String prijmeni=sc.next();
 		System.out.print("\t\t\t\t |  \n");
 		
-		System.out.printf("\t\t\t\t |  Rok narození zaměstnance s ID %d: ", ID);
-		int rokNarozeni = sc.nextInt();
-		System.out.print("\t\t\t\t |  \n");
+		int rokNarozeni = 0;
+		//nefunkcni
+		do{
+			System.out.printf("\t\t\t\t |  Rok narození nového zaměstnance: ");
+			rokNarozeni = sc.nextInt();
+			System.out.print("\t\t\t\t |  \n");
+		}while((1940 < rokNarozeni) & (rokNarozeni < 2010));
+		
 		
 		// dodělat rozdělení do skupin
 		int skupina = 0;
+		Menu.VyberSkupiny();
 		
 		if(sc.hasNextInt()) 
 		{
 			 skupina= sc.nextInt();
-			 Menu.VyberSkupiny();
 		}
 		else 
 		{
