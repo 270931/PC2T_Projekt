@@ -10,9 +10,10 @@ public class ProjektStart {
 		
 		
 		boolean exit = false;
+		Scanner sc = new Scanner(System.in);
 		
 		do {
-			Scanner sc = new Scanner(System.in);
+			
 			int vyber = 0;
 			
 			//Vypiš hlavní menu
@@ -24,6 +25,7 @@ public class ProjektStart {
 			}
 			else {
 				vyber = 99;
+				sc.next();
 			}
 			
 			
@@ -59,10 +61,11 @@ public class ProjektStart {
 				
 			}
 			
-			sc.close();
+
 		} while(!exit);
 		
 		System.out.print("Ukončeno.");
+		sc.close();
 	}
 
 }
