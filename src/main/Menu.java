@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 //				-> Abecední výpis zaměstnanců ve skupinách
 //				-> Kvalita spolupráce
 //				-> Zaměstnanec s nejvíce vazbami
-//				-> Počet zaměstnanců ve skupinách
 //			-> Souborové operace
 //				-> Uložení zaměstnance do souboru
 //				-> Načtení zaměstnance ze souboru

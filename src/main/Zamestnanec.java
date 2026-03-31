@@ -3,7 +3,8 @@ package main;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Zamestnanec {
+public abstract class Zamestnanec 
+{
 	
 	// 'ID' zaměstnance
 	protected int ID;
@@ -23,7 +24,8 @@ public abstract class Zamestnanec {
 	
 	
 	// konstruktor pro abstraktní třídu Zamestnanec
-	public Zamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni) {
+	public Zamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni) 
+	{
 		this.ID = id;
 		this.Jmeno = jmeno;
 		this.Prijmeni = prijmeni;
@@ -33,9 +35,9 @@ public abstract class Zamestnanec {
 	
 	// společný textový výpis o zaměstnanci
 	@Override
-	public String toString() {
-		
-		return "Zamestnanec s ID " + ID + " se jmenuje " + Jmeno + " " + Prijmeni + ", jeho datum narozeni je" + RokNarozeni + ".";
+	public String toString() 
+	{
+		return "Zaměstnanec s ID " + ID + " se jmenuje " + Jmeno + " " + Prijmeni + ", narodil se v roce " + RokNarozeni + ".";
 	}
 
 }
