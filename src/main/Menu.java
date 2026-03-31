@@ -1,5 +1,8 @@
 package main;
 
+import java.util.concurrent.TimeUnit;
+
+
 //		Struktura systému nabídek Menu
 //		
 //		-> MainMenu
@@ -45,7 +48,8 @@ public class Menu {
 				"\t\t\t\t | 4    Konec                                  |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n"
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Zadejte vaši volbu: "
 			);
 	}
 	
@@ -54,8 +58,9 @@ public class Menu {
 	 * Standartní okno pro výpis chyby uživateli
 	 * @param errorHeader	Nadpis chyby (max. 43 znaků)
 	 * @param errorMessage	Zpráva pro uživatele, bez délkového omezení
+	 * @throws InterruptedException 
 	 */
-	public static void GeneralError(String errorHeader, String errorMessage) {
+	public static void GeneralError(String errorHeader, String errorMessage) throws InterruptedException {
 	    
 	    // Standardizovaný nadpis
 	    Menu.StandartHeader(errorHeader);
@@ -107,6 +112,8 @@ public class Menu {
 	            "\t\t\t\t-+---------------------------------------------+-\n"+
 	            "\t\t\t\t |                                             |\n"+
 	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	    
+	    TimeUnit.SECONDS.sleep(5);
 	}
 	
 	
@@ -135,7 +142,7 @@ public class Menu {
 	}
 	
 	
-	public static void NovyZamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni) {
+	public static void NovyZamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni) throws InterruptedException {
 
 		// TO DO: clear console
 		
@@ -153,6 +160,9 @@ public class Menu {
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni
 			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
 	}
 	
 	
