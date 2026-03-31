@@ -6,28 +6,28 @@ import java.util.Map;
 public abstract class Zamestnanec {
 	
 	// 'ID' zaměstnance
-	public int ID;
+	protected int ID;
 	
 	// 'Jméno' zaměstnance
-	public String Name;
+	protected String Jmeno;
 	
 	// 'Přijmení' zaměstance
-	public String Surname;
+	protected String Prijmeni;
 	
-	// ROk narození zaměstnance
-	public int DateOfBirth;
+	// Rok narození zaměstnance
+	protected int DatumNarozeni;
 	
 	// Seznam úrovní spolupráce s ostatními zaměstnanci uložené jako
 	// 'ID, úroveň' dvojice, kde ID je key pro přístup k úrovni 
-	public Map<Integer, String> relations = new HashMap<Integer, String>();
+	public Map<Integer, String> spoluprace = new HashMap<Integer, String>();
 	
 	
 	// konstruktor pro abstraktní třídu Zamestnanec
-	public Zamestnanec(int id, String name, String surname, int dateOfBirth) {
+	public Zamestnanec(int id, String jmeno, String prijmeni, int datumNarozeni) {
 		this.ID = id;
-		this.Name = name;
-		this.Surname = surname;
-		this.DateOfBirth = dateOfBirth;
+		this.Jmeno = jmeno;
+		this.Prijmeni = prijmeni;
+		this.DatumNarozeni = datumNarozeni;
 	}
 	
 	
@@ -35,7 +35,7 @@ public abstract class Zamestnanec {
 	@Override
 	public String toString() {
 		
-		return "Nic";
+		return "Zamestnanec s ID " + ID + " se jmenuje " + Jmeno + " " + Prijmeni + ", jeho datum narozeni je" + DatumNarozeni + ".";
 	}
 
 }
