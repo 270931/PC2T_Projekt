@@ -24,7 +24,7 @@ public class Handler {
 	}
 	
 	// bylo by mnohem lepší/bezpečnější udělat novou statickou třídu např. Handler/Databaze atd.
-	public static boolean pridatZamenstnance() {
+	public static boolean pridatZamenstnance() throws InterruptedException{
 		
 		//generace ID
 		int ID = 0;
