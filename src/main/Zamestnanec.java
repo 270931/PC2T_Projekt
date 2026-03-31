@@ -15,7 +15,7 @@ public abstract class Zamestnanec {
 	protected String Prijmeni;
 	
 	// Rok narození zaměstnance
-	protected int DatumNarozeni;
+	protected int RokNarozeni;
 	
 	// Seznam úrovní spolupráce s ostatními zaměstnanci uložené jako
 	// 'ID, úroveň' dvojice, kde ID je key pro přístup k úrovni 
@@ -23,11 +23,11 @@ public abstract class Zamestnanec {
 	
 	
 	// konstruktor pro abstraktní třídu Zamestnanec
-	public Zamestnanec(int id, String jmeno, String prijmeni, int datumNarozeni) {
+	public Zamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni) {
 		this.ID = id;
 		this.Jmeno = jmeno;
 		this.Prijmeni = prijmeni;
-		this.DatumNarozeni = datumNarozeni;
+		this.RokNarozeni = rokNarozeni;
 	}
 	
 	
@@ -35,7 +35,7 @@ public abstract class Zamestnanec {
 	@Override
 	public String toString() {
 		
-		return "Zamestnanec s ID " + ID + " se jmenuje " + Jmeno + " " + Prijmeni + ", jeho datum narozeni je" + DatumNarozeni + ".";
+		return "Zamestnanec s ID " + ID + " se jmenuje " + Jmeno + " " + Prijmeni + ", jeho datum narozeni je" + RokNarozeni + ".";
 	}
 
 }

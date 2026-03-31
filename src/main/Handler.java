@@ -63,7 +63,7 @@ public class Handler {
 		if(skupina == 1) {
 			DatovyAnalytik a = new DatovyAnalytik(ID, jmeno, prijmeni, rokNarozeni);
 			databaze.add(a);
-			Menu.NovyZamestnanec(a.ID, a.Name, a.Surname, a.DateOfBirth);
+			Menu.NovyZamestnanec(a.ID, a.Jmeno, a.Prijmeni, a.RokNarozeni);
 			return true;
 		}
 		else if(skupina == 2) {
