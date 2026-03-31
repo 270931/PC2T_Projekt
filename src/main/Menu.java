@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 //				-> Přidání zaměstnance
 //				-> Přidání spolupráce
 //				-> Odebrání zaměstnance
+//				-> Odebrání spolupráce
 //				-> Vyhledávání zaměstnance podle ID
 //				-> Dovednosti zaměstnance
 //			-> Statistiky
@@ -26,7 +27,11 @@ import java.util.concurrent.TimeUnit;
 
 public class Menu {
 	
-	public static void MainMenu() {
+	/**
+	 * Vypíše strukturované hlavní menu.
+	 */
+	public static void MainMenu() 
+	{
 
 		// TO DO: clear console
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
@@ -38,9 +43,9 @@ public class Menu {
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t | Prosím vyberte Vaši akci:                   |\n"+
 				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 1    Zaměstnanci a operace s nimi	       |\n"+
+				"\t\t\t\t | 1    Zaměstnanci a operace s nimi           |\n"+
 				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 2    Statistiky		   	       |\n"+
+				"\t\t\t\t | 2    Statistiky                             |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t | 3    Souborové operace                      |\n"+
 				"\t\t\t\t |                                             |\n"+
@@ -59,7 +64,8 @@ public class Menu {
 	 * @param errorMessage	Zpráva pro uživatele, bez délkového omezení
 	 * @throws InterruptedException 
 	 */
-	public static void GeneralError(String errorHeader, String errorMessage) throws InterruptedException {
+	public static void GeneralError(String errorHeader, String errorMessage) throws InterruptedException 
+	{
 	    
 	    // Standardizovaný nadpis
 	    Menu.StandartHeader(errorHeader);
@@ -74,16 +80,18 @@ public class Menu {
 	        String mezera = newLine.isEmpty() ? "" : " ";
 	        
 	        // Jestliže se další slovo vejde do 43 znaků, tak ho přidáme
-	        if ((newLine + mezera + slova[i]).length() <= 43) {
+	        if ((newLine + mezera + slova[i]).length() <= 43) 
+	        {
 	            newLine += mezera + slova[i]; 
-	            
-	        } else {
+	        }
+	        else
+	        {
 	            // pokud je řádek plný, print
 	        	int padding = (43 - newLine.length())/2;
 	    		String pad = "";
 	    		for(int j = 0; j < padding; j++) {
 	    			pad += " ";
-	    		}
+	    	}
 	    		
 	    		pad += newLine;
 	            System.out.printf("\t\t\t\t | %-43s |\n", pad);
@@ -94,10 +102,12 @@ public class Menu {
 	    }
 	    
 	    // Pokud něco zbylo, vypíše se to zde
-	    if (!newLine.isEmpty()) {
+	    if (!newLine.isEmpty()) 
+	    {
 	    	int padding = (43 - newLine.length())/2;
 			String pad = "";
-			for(int j = 0; j < padding; j++) {
+			for(int j = 0; j < padding; j++) 
+			{
 				pad += " ";
 			}
 			
@@ -120,8 +130,8 @@ public class Menu {
 	 * Vypíše do konzole standartní hlavičku dialogového okna
 	@param	header	Nadpis okna (max. 43 znaků)
 	 */
-	public static void StandartHeader(String header) {
-		
+	public static void StandartHeader(String header) 
+	{
 		
 		// Dostanu počet mezer které jsou potřeba přidat zleva i z prava
 		int padding = (43 - header.length())/2;
@@ -140,10 +150,27 @@ public class Menu {
 	            "\t\t\t\t |                                             |\n", pad);
 	}
 	
-	
-	public static void NovyZamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni) throws InterruptedException {
+	/**
+	 * Vypíše strukturovaný informační banner o zaměstnanci
+	 * @param id	ID vypisovaného zaměstnance
+	 * @param jmeno	Jméno vypisovaného zaměstnance
+	 * @param prijmeni	Prijmení vypisovaného zaměstnance
+	 * @param rokNarozeni	Rok narození vypisovaného zaměstnance
+	 * @throws InterruptedException	Metoda používá pro přehlednost funkci sleep().
+	 */
+	public static void NovyZamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni, int skupina) throws InterruptedException 
+	{
 
 		// TO DO: clear console
+		String zamereni;
+		if(skupina == 1)
+		{
+			zamereni = "Datový analytik";
+		}
+		else
+		{
+			zamereni = "Bezpečností Specialista";
+		}
 		
 		Menu.StandartHeader("Nový zaměstnanec vytvořen.");
 		
@@ -156,12 +183,72 @@ public class Menu {
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t | Rok narození:   %-27d |\n"+
 				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |      Skupina:   %-27s |\n"+
+				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni
+				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni, zamereni
 			);
 		
 		// wait 5 seconds
 		TimeUnit.SECONDS.sleep(5);
+	}
+	
+	public static void VyberSkupiny() 
+	{
+
+		// TO DO: clear console
+		System.out.printf("\n\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |          Výběr skupiny zaměstnance          |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Prosím, vyberte skupinu nového zaměstnance: |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 1    Datový analytik                        |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 2    Bezpečností specialista                |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Zadejte vaši volbu: "
+			);
+	}
+	
+	
+	public static void MenuZamestnanci() 
+	{
+
+		// TO DO: clear console
+		
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |         Zaměstnanci a operace s nimi        |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Prosím vyberte Vaši akci:                   |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 1    Přidání zaměstnance                    |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 2    Přidání spolupráce                     |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 3    Odebrání zaměstnance                   |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 4    Odebrání spolupráce                    |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 5    Vyhledání zaměstnance podle ID         |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 6    Dovednosti zaměstnance                 |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 7    Konec                                  |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Zadejte vaši volbu: "
+			);
 	}
 	
 	
