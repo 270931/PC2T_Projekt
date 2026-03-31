@@ -62,7 +62,7 @@ public class ProjektStart {
 							break;
 						
 						case 2:
-							if(hr.pridatSpoluprace())
+							if(hr.pridatSpolupraci())
 							{
 								System.out.print("Success");
 							}
@@ -76,7 +76,7 @@ public class ProjektStart {
 							break;
 						
 						case 4:
-							if(hr.odebratSpoluprace())
+							if(hr.odebratSpolupraci())
 							{
 								System.out.print("Success");
 							}
