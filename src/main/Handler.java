@@ -56,7 +56,7 @@ public class Handler
 			System.out.printf("\t\t\t\t |  Rok narození nového zaměstnance: ");
 			rokNarozeni = sc.nextInt();
 			System.out.print("\t\t\t\t |  \n");
-		}while((1940 < rokNarozeni) & (rokNarozeni < 2010));
+		}while((1940 > rokNarozeni) || (rokNarozeni > 2010));
 		
 		
 		// dodělat rozdělení do skupin
