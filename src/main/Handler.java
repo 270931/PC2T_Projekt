@@ -51,11 +51,15 @@ public class Handler
 		System.out.print("\t\t\t\t |  \n");
 		
 		int rokNarozeni = 0;
-		//nefunkcni
 		do{
 			System.out.printf("\t\t\t\t |  Rok narození nového zaměstnance: ");
 			rokNarozeni = sc.nextInt();
 			System.out.print("\t\t\t\t |  \n");
+			if((1940 > rokNarozeni) || (rokNarozeni > 2010))
+			{
+				System.out.printf("\t\t\t\t |  Takovýto rok narození je nemožný. \n");
+				System.out.print("\t\t\t\t |  \n");
+			}
 		}while((1940 > rokNarozeni) || (rokNarozeni > 2010));
 		
 		
