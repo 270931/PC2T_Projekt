@@ -20,7 +20,7 @@ public abstract class Zamestnanec
 	
 	// Seznam úrovní spolupráce s ostatními zaměstnanci uložené jako
 	// 'ID, úroveň' dvojice, kde ID je key pro přístup k úrovni 
-	public Map<Integer, String> spoluprace = new HashMap<Integer, String>();
+	public Map<Integer, Integer> spoluprace = new HashMap<Integer, Integer>();
 	
 	
 	// konstruktor pro abstraktní třídu Zamestnanec

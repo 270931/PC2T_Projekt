@@ -27,9 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Menu {
 	
-	/**
-	 * Vypíše strukturované hlavní menu.
-	 */
+
 	public static void MainMenu() 
 	{
 
@@ -57,13 +55,7 @@ public class Menu {
 			);
 	}
 	
-	
-	/**
-	 * Standartní okno pro výpis chyby uživateli
-	 * @param errorHeader	Nadpis chyby (max. 43 znaků)
-	 * @param errorMessage	Zpráva pro uživatele, bez délkového omezení
-	 * @throws InterruptedException 
-	 */
+
 	public static void GeneralError(String errorHeader, String errorMessage) throws InterruptedException 
 	{
 	    
@@ -125,11 +117,7 @@ public class Menu {
 	    TimeUnit.SECONDS.sleep(5);
 	}
 	
-	
-	/**
-	 * Vypíše do konzole standartní hlavičku dialogového okna
-	@param	header	Nadpis okna (max. 43 znaků)
-	 */
+
 	public static void StandartHeader(String header) 
 	{
 		
@@ -150,14 +138,7 @@ public class Menu {
 	            "\t\t\t\t |                                             |\n", pad);
 	}
 	
-	/**
-	 * Vypíše strukturovaný informační banner o zaměstnanci
-	 * @param id	ID vypisovaného zaměstnance
-	 * @param jmeno	Jméno vypisovaného zaměstnance
-	 * @param prijmeni	Prijmení vypisovaného zaměstnance
-	 * @param rokNarozeni	Rok narození vypisovaného zaměstnance
-	 * @throws InterruptedException	Metoda používá pro přehlednost funkci sleep().
-	 */
+
 	public static void NovyZamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni, int skupina) throws InterruptedException 
 	{
 
@@ -187,6 +168,37 @@ public class Menu {
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni, zamereni
+			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
+	}
+	
+
+	public static void NovaSpoluprace(int id_zamestnance, int id_kolegy, int uroven) throws InterruptedException 
+	{
+		String urovenString = "";
+		// TO DO: clear console
+		switch(uroven)
+		{
+		case 1:
+			urovenString = "Špatná";
+			break;
+		case 2:
+			urovenString = "Průměrná";
+			break;
+		case 3:
+			urovenString = "Dobrá";
+		}
+		
+		Menu.StandartHeader("Nová spolupráce vytvořena.");
+		
+		System.out.printf(
+				"\t\t\t\t |         ID      ID       Spolupráce         |\n"+
+				"\t\t\t\t |         %3d <-> %3d       %8s          |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n", id_zamestnance, id_kolegy, urovenString
 			);
 		
 		// wait 5 seconds

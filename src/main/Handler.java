@@ -22,6 +22,7 @@ public class Handler
 		return true;
 	}
 	
+	// hotovo
 	public boolean pridatZamenstnance() throws InterruptedException
 	{
 		//generace ID
@@ -100,20 +101,115 @@ public class Handler
 		
 	}
 	
-	public boolean pridatSpolupraci() 
+	//hotovo
+	public boolean pridatSpolupraci() throws InterruptedException 
 	{
-		
-		System.out.println("Zadejte ID zaměstnance: ");
+		Menu.StandartHeader("Přidávání spolupráce");
+		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
 		int id_zamestnance = sc.nextInt();
-		System.out.println("Zadejte ID kolegy: ");
+		System.out.print("\t\t\t\t |\n\t\t\t\t |  Zadejte ID kolegy: ");
 		int id_kolegy = sc.nextInt();
-		System.out.println("Zadejte úroveň spolupráce: ");
+		System.out.print("\t\t\t\t |\n\t\t\t\t |  1 - špatná; 2 - průměrná; 3 - dobrá ");
+		System.out.print("\n\t\t\t\t |  Zadejte úroveň spolupráce (1-3): ");
 		int urovenSpoluprace = sc.nextInt();
-		return true;
+		
+		// kontrola rozdílnosti ID
+		if(id_zamestnance == id_kolegy)
+		{
+			Menu.GeneralError("Nelze přidat spolupráci", "Není možné přidat spolupráci sobě sama. Prosím zvolte ID jiného člověka a opakujte akci.");
+			return false;
+		}
+
+		
+		boolean zamestnanecExists = false;
+		boolean kolegaExists = false;
+		int zamestnanecIndex = 0, kolegaIndex = 0;
+		
+		// najdi jestli obě ID existují
+		for (Zamestnanec current : databaze)
+		{
+			if(current.ID == id_zamestnance)
+			{
+				zamestnanecExists = true;
+				zamestnanecIndex = databaze.indexOf(current);
+			}
+			if(current.ID == id_kolegy)
+			{
+				kolegaExists = true;
+				kolegaIndex = databaze.indexOf(current);
+			}
+			if(zamestnanecExists & kolegaExists)
+			{
+				// přidání spolupráce do zaměstnance
+				Zamestnanec a = databaze.get(zamestnanecIndex);
+				a.spoluprace.put(id_kolegy, urovenSpoluprace);
+				
+				// přidání spolupráce do kolegy
+				Zamestnanec b = databaze.get(kolegaIndex);
+				b.spoluprace.put(id_zamestnance, urovenSpoluprace);
+				
+				Menu.NovaSpoluprace(a.ID, b.ID, a.spoluprace.get(b.ID));
+				return true;
+			}
+		}
+		Menu.GeneralError("Nenalezeny požadované ID", String.format("Pokud toto čtete, znamená to, že program nemohl v databázi najít "
+				+ "jedno nebo obě Vámi zadané ID (%d; %d). Prosím, zkontrolujte vámi zadané ID a opakujte akci.", id_zamestnance, id_kolegy));
+		return false;
 	}
 	
-	public boolean odebratZamestnance() 
+	// neotestováno
+	public boolean odebratZamestnance() throws InterruptedException 
 	{
+		Menu.StandartHeader("Odebrání zaměstnance");
+		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
+		int id_zamestnance = sc.nextInt();
+		int odebranych_vazeb = 0;
+		
+		for(Zamestnanec current : databaze)
+		{
+			if(current.ID == id_zamestnance)
+			{
+				Menu.StandartHeader(String.format("Odebrání zaměstance ID%d", id_zamestnance));
+				System.out.print(
+						"\t\t\t\t |    Jste si zcela jistí odebráním tohoto     |\n"+
+						"\t\t\t\t |    zaměstnance? Tato akce je nevratná!      |\n"+
+						"\t\t\t\t |                                             |\n"+
+						"\t\t\t\t |             Ano              Ne             |\n"+
+						"\t\t\t\t-+---------------------------------------------+-\n"+
+			            "\t\t\t\t |                                             |\n");
+				System.out.print(
+						"\t\t\t\t |  Vaše volba: ");
+				String volba = sc.next();
+				
+				// pokud uživatel zvolí "Ano"
+				if(volba.toLowerCase().startsWith("a"))
+				{
+					databaze.remove(current);
+					
+					// odebere spolupráce u všech ostatních zaměstanců (odebíraný zaměstnanec už není součástí databáze)
+					// težce neefektivní
+					for(Zamestnanec i : databaze)
+					{
+						for(Integer id : current.spoluprace.keySet())
+						{
+							if(i.spoluprace.containsKey(id))
+							{
+								i.spoluprace.remove(id);
+								odebranych_vazeb++;
+							}
+						}
+					}
+					
+					Menu.GeneralError(String.format("Zaměstanec ID%d úspěšně odebrán.", current.ID), "Odebrání zaměstance proběhlo v pořádku.");
+					System.out.println(odebranych_vazeb);
+					return true;
+				}
+				Menu.GeneralError("Akce byla zrušena.", "Vstup z klávesnice nebyl interpretován jako souhlas s odebráním zaměstnance.");
+				return true;
+			}
+		}
+		Menu.GeneralError(String.format("Zaměstnanec ID%d nenalezen.", id_zamestnance), "Program nemohl v databázi najít zaměstnance s požadovaným ID."
+				+ "Prosím, opakujte akci s jiným ID.");
 		return true;
 	}
 	
