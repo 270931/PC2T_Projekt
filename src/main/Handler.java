@@ -4,11 +4,12 @@ import java.util.*;
 
 public class Handler 
 {
-	// jelikož Analytik a Bezpečák jsou typu ZAměstnance, můžeme vytvořit list zaměstnanců typu Zaměstnanec a
+	// jelikož Analytik a Bezpečák jsou typu Zaměstnance, můžeme vytvořit list zaměstnanců typu Zaměstnanec a
 	//  pokud budeme chtít s pracovat s metodou specifickou pro jednu danou třídu, budeme muset zkontrolovat typ pomocí 'instanceof ()'
 	private List<Zamestnanec> databaze = new ArrayList<Zamestnanec>();
 	private Scanner sc = new Scanner(System.in);
 	
+	// HOTOVO
 	private boolean zkontrolujUnikatniID(int kontrolovaneID) 
 	{
 		// projdi každý prvek uložený v databázi
@@ -22,7 +23,7 @@ public class Handler
 		return true;
 	}
 	
-	// hotovo
+	// HOTOVO
 	public boolean pridatZamenstnance() throws InterruptedException
 	{
 		//generace ID
@@ -101,7 +102,7 @@ public class Handler
 		
 	}
 	
-	//hotovo
+	// HOTOVO
 	public boolean pridatSpolupraci() throws InterruptedException 
 	{
 		Menu.StandartHeader("Přidávání spolupráce");
@@ -157,7 +158,7 @@ public class Handler
 		return false;
 	}
 	
-	// neotestováno
+	// HOTOVO
 	public boolean odebratZamestnance() throws InterruptedException 
 	{
 		Menu.StandartHeader("Odebrání zaměstnance");
@@ -190,14 +191,11 @@ public class Handler
 					// težce neefektivní
 					for(Zamestnanec i : databaze)
 					{
-						for(Integer id : current.spoluprace.keySet())
-						{
-							if(i.spoluprace.containsKey(id))
+						if(i.spoluprace.containsKey(current.ID))
 							{
-								i.spoluprace.remove(id);
+								i.spoluprace.remove(current.ID);
 								odebranych_vazeb++;
 							}
-						}
 					}
 					
 					Menu.GeneralError(String.format("Zaměstanec ID%d úspěšně odebrán.", current.ID), "Odebrání zaměstance proběhlo v pořádku.");
@@ -213,15 +211,70 @@ public class Handler
 		return true;
 	}
 	
-	public boolean odebratSpolupraci() 
+	// neotestovano
+	public boolean odebratSpolupraci() throws InterruptedException 
 	{
-		System.out.println("Zadejte ID zaměstnance: ");
+		Menu.StandartHeader("Odebrání spolupráce mezi zaměstnanci");
+		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
 		int id_zamestnance = sc.nextInt();
-		System.out.println("Zadejte ID kolegy: ");
+		System.out.print("\t\t\t\t |  Zadejte ID kolegy: ");
 		int id_kolegy = sc.nextInt();
-		System.out.println("Zadejte úroveň spolupráce: ");
-		int urovenSpoluprace = sc.nextInt();
-		return true;
+		
+		boolean spoluprace_nalezena = false;
+		int odebranych_spolupraci = 0;
+
+		if(id_zamestnance == id_kolegy)
+		{
+			Menu.GeneralError("Duplikátní ID", "Nelze odebrat (a ani přidat) spolupráci "
+					+ "mezi jedním a stejným zaměstnancem. Prosím, zvolte rozdílná ID a akci opakujte");
+			return false;
+		}
+		
+		for(Zamestnanec i : databaze)
+		{
+			if(i.ID == id_zamestnance) {
+				if(i.spoluprace.containsKey(id_kolegy))
+				{
+					spoluprace_nalezena = true;
+					i.spoluprace.remove(id_kolegy);
+					odebranych_spolupraci++;
+				}
+				else
+				{
+					Menu.GeneralError("Spolupráce neexistuje", String.format("Spolupráce mezi"
+							+ " ID%d a ID%d neexistuje. Prosím, zvolte dvojici zaměstnanců která má spolupráci", id_zamestnance, id_kolegy));
+					return false;
+				}
+				
+			}
+			if(i.ID == id_kolegy)
+			{
+				if(i.spoluprace.containsKey(id_zamestnance))
+				{
+					spoluprace_nalezena = true;
+					i.spoluprace.remove(id_zamestnance);
+					odebranych_spolupraci++;
+				}
+				else
+				{
+					Menu.GeneralError("Spolupráce neexistuje", String.format("Spolupráce mezi"
+							+ " ID%d a ID%d neexistuje. Prosím, zvolte dvojici zaměstnanců která má spolupráci", id_zamestnance, id_kolegy));
+					return false;
+				}
+			}
+		}
+		
+		if(spoluprace_nalezena)
+		{
+			Menu.GeneralError("Spolupráce úspěšně odebrána.", String.format("Spolupráce mezi zaměstnanci "
+					+ "ID%d a ID%d byla úspěšně odebrána. %d", id_zamestanca, id_kolegy, odebranych_spolupraci));
+			return true;
+		}
+		
+		Menu.GeneralError("ID zaměstnance nenalezeno", "V programu nastala chyba, v databázi nebylo"
+				+ "možné najít buď ID zaměstnance nebo kolegy. Prosím, opakujte akci.");
+		// vykoná se pokud ID zaměstnance neexistuje
+		return false;
 	}
 	
 	public boolean vyhledatZamestnance()
