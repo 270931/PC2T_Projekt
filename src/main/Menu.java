@@ -124,7 +124,7 @@ public class Menu {
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |             Operace se soubory              |\n"+
+				"\t\t\t\t |              Souborové operace              |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t |                                             |\n"+
@@ -254,7 +254,7 @@ public class Menu {
 		}
 		else
 		{
-			zamereni = "Bezpečností Specialista";
+			zamereni = "Bezpečnostní specialista";
 		}
 		
 		Menu.StandartHeader("Nový zaměstnanec vytvořen.");
@@ -344,12 +344,9 @@ public class Menu {
 		}
 		else
 		{
-			zamereni = "Bezpečností Specialista";
+			zamereni = "Bezpečnostní specialista";
 		}
-		
-		
 		Menu.StandartHeader("Hledaný zaměstnanec:");
-		//dodelat spoluprace
 		
 		System.out.printf(
 				"\t\t\t\t |           ID:   %-27d |\n"+

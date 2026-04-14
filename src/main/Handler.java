@@ -317,7 +317,7 @@ public class Handler
 		return true;
 	}
 	
-	public boolean zapisDoSouboru(String jmenoSouboru)
+	public boolean zapisDoSouboru(String jmenoSouboru) throws InterruptedException
 	{
 		try (FileWriter fw = new FileWriter(jmenoSouboru); 
 				BufferedWriter bw = new BufferedWriter(fw))
@@ -326,7 +326,7 @@ public class Handler
 
 			if (databaze.isEmpty()) 
 			{
-				System.out.println("Není možný zápis do souboru, databáze je prázdná.");
+				Menu.GeneralError("Prázdná databáze", "Není možný zápis do souboru, databáze je prázdná.");
 				return false;
 			}
 			for(Zamestnanec z : databaze) 
@@ -340,20 +340,31 @@ public class Handler
 					skupina = 2;	
 				}
 				bw.write(z.ID + ";" + z.Jmeno + ";" + z.Prijmeni + ";" + z.RokNarozeni + ";" + skupina);
+				z.spoluprace.forEach((k,v) -> 
+				{
+					try 
+					{
+						bw.write(";" + k + v);
+					} 
+					catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
+				
 				//bw.write(z.toString() + ";" + skupina);
 				bw.newLine();
 			}
 			return true;
-			//dodelat spoluprace
 		}		 
 		catch (IOException e) 
 		{
-			System.out.println("Nepodarilo se otevrit soubor");
+			Menu.GeneralError("Chyba", "Nepodařilo se otevřít soubor.");
 			return false;
 		}
 	}
 	
-	public boolean nacteniZeSouboru(String jmenoSouboru)
+	public boolean nacteniZeSouboru(String jmenoSouboru) throws InterruptedException
 	{
 		try (FileReader fr = new FileReader(jmenoSouboru);
 			BufferedReader br = new BufferedReader(fr);
@@ -369,7 +380,7 @@ public class Handler
 				String prijmeni = atributy[2];
 				int rok = Integer.parseInt(atributy[3]);
 				int skupina = Integer.parseInt(atributy[4]);
-				//dodelat spoluprace
+				
 				if(skupina == 1) 
 				{
 					DatovyAnalytik a = new DatovyAnalytik(id, jmeno, prijmeni, rok);
@@ -382,17 +393,18 @@ public class Handler
 					databaze.add(s);
 					pocet += 1;
 				}
+				//dodelat spoluprace
 			}
-			System.out.println("Bylo načteno " + pocet + " nových záznamů.");
+			Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
 		} 
 		catch (FileNotFoundException e) 
 		{
-			System.out.println("Soubor nebyl nalezen.");
+			Menu.GeneralError("Chyba", "Soubor nebyl nalezen.");
 			return false;
 		} 
 		catch (IOException e) 
 		{
-			System.out.println("Soubor nelze otevřít.");
+			Menu.GeneralError("Chyba", "Soubor nelze otevřít.");
 			return false;
 		}
 		return true;
