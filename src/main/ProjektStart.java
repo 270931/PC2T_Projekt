@@ -173,17 +173,17 @@ public class ProjektStart {
 						sc.next();
 					}
 					
-					/*switch(vyber) 
+					switch(vyber) 
 					{
 						case 1:
-							if(hr.zapisDoSouboru()) 
+							if(hr.zapisDoSouboru("test.txt")) 
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 2:
-							if(hr.nacteniZeSouboru)
+							if(hr.nacteniZeSouboru("test.txt"))
 							{
 								System.out.print("Success");
 							}
@@ -198,7 +198,7 @@ public class ProjektStart {
 									+ " submenu. Prosím, zkuste to znovu.");
 							break;
 							
-					}*/
+					}
 					break;
 					
 				case 4:

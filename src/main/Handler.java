@@ -298,21 +298,17 @@ public class Handler
 				if(z instanceof DatovyAnalytik) 
 				{
 					skupina = 1;
-					Menu.VyhledatZamestnance(z.ID, z.Jmeno, z.Prijmeni, z.RokNarozeni, skupina);
-					return true;
 				}
-				
 				else 
 				{
-					skupina = 2;
-					Menu.VyhledatZamestnance(z.ID, z.Jmeno, z.Prijmeni, z.RokNarozeni, skupina);
-					return true;
+					skupina = 2;	
 				}
+				Menu.VyhledatZamestnance(z.ID, z.Jmeno, z.Prijmeni, z.RokNarozeni, skupina, z.spoluprace);
+				return true;
 			}
 			
 		}
 		Menu.GeneralError("Chybné ID", String.format("Nebyl nalezen zaměstnanec s hledaným ID %d.", id_zamestnance));
-		
 		return false;
 	}
 	
@@ -321,7 +317,84 @@ public class Handler
 		return true;
 	}
 	
+	public boolean zapisDoSouboru(String jmenoSouboru)
+	{
+		try (FileWriter fw = new FileWriter(jmenoSouboru); 
+				BufferedWriter bw = new BufferedWriter(fw))
+		{
+			int skupina = 0;
+
+			if (databaze.isEmpty()) 
+			{
+				System.out.println("Není možný zápis do souboru, databáze je prázdná.");
+				return false;
+			}
+			for(Zamestnanec z : databaze) 
+			{
+				if(z instanceof DatovyAnalytik) 
+				{
+					skupina = 1;
+				}
+				else 
+				{
+					skupina = 2;	
+				}
+				bw.write(z.ID + ";" + z.Jmeno + ";" + z.Prijmeni + ";" + z.RokNarozeni + ";" + skupina);
+				//bw.write(z.toString() + ";" + skupina);
+				bw.newLine();
+			}
+			return true;
+			//dodelat spoluprace
+		}		 
+		catch (IOException e) 
+		{
+			System.out.println("Nepodarilo se otevrit soubor");
+			return false;
+		}
+	}
 	
-	
-	
+	public boolean nacteniZeSouboru(String jmenoSouboru)
+	{
+		try (FileReader fr = new FileReader(jmenoSouboru);
+			BufferedReader br = new BufferedReader(fr);
+			Scanner sc = new Scanner(br))
+		{
+			String radek;
+			int pocet = 0;
+			while((radek = br.readLine()) != null)
+			{
+				String[] atributy = radek.split(";");
+				int id = Integer.parseInt(atributy[0]);
+				String jmeno = atributy[1];
+				String prijmeni = atributy[2];
+				int rok = Integer.parseInt(atributy[3]);
+				int skupina = Integer.parseInt(atributy[4]);
+				//dodelat spoluprace
+				if(skupina == 1) 
+				{
+					DatovyAnalytik a = new DatovyAnalytik(id, jmeno, prijmeni, rok);
+					databaze.add(a);
+					pocet += 1;
+				}
+				else if (skupina == 2) 
+				{
+					BezpecnostniSpecialista s = new BezpecnostniSpecialista(id, jmeno, prijmeni, rok);
+					databaze.add(s);
+					pocet += 1;
+				}
+			}
+			System.out.println("Bylo načteno " + pocet + " nových záznamů.");
+		} 
+		catch (FileNotFoundException e) 
+		{
+			System.out.println("Soubor nebyl nalezen.");
+			return false;
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("Soubor nelze otevřít.");
+			return false;
+		}
+		return true;
+	}
 }
