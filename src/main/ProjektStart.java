@@ -13,6 +13,8 @@ public class ProjektStart {
 		Scanner sc = new Scanner(System.in);
 		Handler hr = new Handler();
 		
+		// načtení z databáze
+		
 		do 
 		{
 			
@@ -109,15 +111,99 @@ public class ProjektStart {
 
 				//Submenu: Statistiky
 				case 2:
-					// Vypiš menu pro statistiky
+					Menu.MenuStatistiky();
+					
+					
+					if(sc.hasNextInt()) 
+					{
+						vyber = sc.nextInt();
+					}
+					else 
+					{
+						vyber = 99;
+						sc.next();
+					}
+					
+					/*switch(vyber) 
+					{
+						case 1:
+							if(hr.vypisZamestnancu()) 
+							{
+								System.out.print("Success");
+							}
+							break;
+						
+						case 2:
+							if(hr.kvalitaSpoluprace())
+							{
+								System.out.print("Success");
+							}
+							break;
+						
+						case 3:
+							if(hr.maxVazbySpoluprace())
+							{
+								System.out.print("Success");
+							}
+							break;
+						
+						case 4:
+							break;
+							
+						
+						default:
+							Menu.GeneralError("Chyba volby v Menu Zaměstnanci", "Dopustili jste se chyby při zadávání vaší volby pro"
+									+ " submenu. Prosím, zkuste to znovu.");
+							break;
+							
+					}*/
 					break;
 				
 				case 3:
-					// Vypiš menu pro soubory
+					Menu.MenuSoubory();
+					
+					
+					if(sc.hasNextInt()) 
+					{
+						vyber = sc.nextInt();
+					}
+					else 
+					{
+						vyber = 99;
+						sc.next();
+					}
+					
+					/*switch(vyber) 
+					{
+						case 1:
+							if(hr.zapisDoSouboru()) 
+							{
+								System.out.print("Success");
+							}
+							break;
+						
+						case 2:
+							if(hr.nacteniZeSouboru)
+							{
+								System.out.print("Success");
+							}
+							break;
+						
+						case 4:
+							break;
+							
+						
+						default:
+							Menu.GeneralError("Chyba volby v Menu Zaměstnanci", "Dopustili jste se chyby při zadávání vaší volby pro"
+									+ " submenu. Prosím, zkuste to znovu.");
+							break;
+							
+					}*/
 					break;
 					
 				case 4:
-					// Vypiš menu pro ukončení
+					Menu.Konec();
+					// uložení do databáze
 					exit = true;
 					break;
 				

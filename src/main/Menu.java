@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -55,6 +56,109 @@ public class Menu {
 			);
 	}
 	
+	public static void MenuZamestnanci() 
+	{
+
+		// TO DO: clear console
+		
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |         Zaměstnanci a operace s nimi        |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Prosím vyberte Vaši akci:                   |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 1    Přidání zaměstnance                    |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 2    Přidání spolupráce                     |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 3    Odebrání zaměstnance                   |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 4    Odebrání spolupráce                    |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 5    Vyhledání zaměstnance podle ID         |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 6    Dovednosti zaměstnance                 |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 7    Konec                                  |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Zadejte vaši volbu: "
+			);
+	}
+	
+	public static void MenuStatistiky() 
+	{
+
+		// TO DO: clear console
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                 Statistiky                  |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Prosím vyberte Vaši akci:                   |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 1    Abecední výpis zaměstnanců             |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 2    Kvalita spolupráce                     |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 3    Zaměstnanec s nejvíce vazbami          |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 4    Konec                                  |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Zadejte vaši volbu: "
+			);
+	}
+	
+	public static void MenuSoubory() 
+	{
+
+		// TO DO: clear console
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |             Operace se soubory              |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Prosím vyberte Vaši akci:                   |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 1    Uložení zaměstnanců do souboru         |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 2    Načtení zaměstnanců ze souboru         |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 4    Konec                                  |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Zadejte vaši volbu: "
+			);
+	}
+	
+	public static void Konec() 
+	{
+
+		// TO DO: clear console
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |         Opravdu se chystáte odejít?         |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |           Ano                 Ne            |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Zadejte vaši volbu: "
+			);
+	}
 
 	public static void GeneralError(String errorHeader, String errorMessage) throws InterruptedException 
 	{
@@ -228,7 +332,8 @@ public class Menu {
 			);
 	}
 	
-	public static void VyhledatZamestnance(int id, String jmeno, String prijmeni, int rokNarozeni, int skupina) throws InterruptedException 
+	public static void VyhledatZamestnance(int id, String jmeno, String prijmeni, 
+			int rokNarozeni, int skupina, Map<Integer, Integer> spoluprace) throws InterruptedException 
 	{
 
 		// TO DO: clear console
@@ -241,6 +346,7 @@ public class Menu {
 		{
 			zamereni = "Bezpečností Specialista";
 		}
+		
 		
 		Menu.StandartHeader("Hledaný zaměstnanec:");
 		//dodelat spoluprace
@@ -256,50 +362,41 @@ public class Menu {
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t |      Skupina:   %-27s |\n"+
 				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t |   Spolupráce:   %-27s |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni, zamereni
+				"\t\t\t\t |   Spolupráce:   ID    Úroveň spolupráce     |\n"+
+				"\t\t\t\t |                                             |\n"
+				, id, jmeno, prijmeni, rokNarozeni, zamereni
 			);
+		
+		for(Map.Entry<Integer,Integer> i : spoluprace.entrySet())
+		{
+			String uroven = "";
+			switch(i.getValue())
+			{
+			case 1:
+				uroven = "Špatná";
+				break;
+			case 2:
+				uroven = "Průměrná";
+				break;
+			case 3:
+				uroven = "Dobrá";
+				break;
+			}			
+			System.out.printf("\t\t\t\t |                 %d   %-17s     |\n", i.getKey(), uroven);
+		}
+		
+		System.out.printf(
+	            "\t\t\t\t |                                             |\n"+
+	            "\t\t\t\t-+---------------------------------------------+-\n"+
+	            "\t\t\t\t |                                             |\n"+
+	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		
 		// wait 5 seconds
 		TimeUnit.SECONDS.sleep(5);
 	}
 	
 	
-	public static void MenuZamestnanci() 
-	{
-
-		// TO DO: clear console
-		
-		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |         Zaměstnanci a operace s nimi        |\n"+
-				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | Prosím vyberte Vaši akci:                   |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 1    Přidání zaměstnance                    |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 2    Přidání spolupráce                     |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 3    Odebrání zaměstnance                   |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 4    Odebrání spolupráce                    |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 5    Vyhledání zaměstnance podle ID         |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 6    Dovednosti zaměstnance                 |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 7    Konec                                  |\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | Zadejte vaši volbu: "
-			);
-	}
+	
 	
 	
 
