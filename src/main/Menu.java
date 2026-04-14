@@ -228,6 +228,44 @@ public class Menu {
 			);
 	}
 	
+	public static void VyhledatZamestnance(int id, String jmeno, String prijmeni, int rokNarozeni, int skupina) throws InterruptedException 
+	{
+
+		// TO DO: clear console
+		String zamereni;
+		if(skupina == 1)
+		{
+			zamereni = "Datový analytik";
+		}
+		else
+		{
+			zamereni = "Bezpečností Specialista";
+		}
+		
+		Menu.StandartHeader("Hledaný zaměstnanec:");
+		//dodelat spoluprace
+		
+		System.out.printf(
+				"\t\t\t\t |           ID:   %-27d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |        Jméno:   %-27s |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |     Přijmení:   %-27s |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | Rok narození:   %-27d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |      Skupina:   %-27s |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |   Spolupráce:   %-27s |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni, zamereni
+			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
+	}
+	
 	
 	public static void MenuZamestnanci() 
 	{

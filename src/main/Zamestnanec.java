@@ -37,7 +37,9 @@ public abstract class Zamestnanec
 	@Override
 	public String toString() 
 	{
-		return "Zaměstnanec s ID " + ID + " se jmenuje " + Jmeno + " " + Prijmeni + ", narodil se v roce " + RokNarozeni + ".";
+		return ID + ";" + Jmeno + ";" + Prijmeni + ";" + RokNarozeni;
 	}
+	
+
 
 }

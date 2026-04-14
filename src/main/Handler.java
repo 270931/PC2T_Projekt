@@ -1,5 +1,11 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Handler 
@@ -267,7 +273,7 @@ public class Handler
 		if(spoluprace_nalezena)
 		{
 			Menu.GeneralError("Spolupráce úspěšně odebrána.", String.format("Spolupráce mezi zaměstnanci "
-					+ "ID%d a ID%d byla úspěšně odebrána. %d", id_zamestanca, id_kolegy, odebranych_spolupraci));
+					+ "ID%d a ID%d byla úspěšně odebrána. %d", id_zamestnance, id_kolegy, odebranych_spolupraci));
 			return true;
 		}
 		
@@ -277,16 +283,45 @@ public class Handler
 		return false;
 	}
 	
-	public boolean vyhledatZamestnance()
+	public boolean vyhledatZamestnance() throws InterruptedException
 	{
-		System.out.println("Zadejte ID zaměstnance: ");
+		Menu.StandartHeader("Vyhledání zaměstnance");
+		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
 		int id_zamestnance = sc.nextInt();
-		return true;
+		System.out.print("\t\t\t\t |  \n");
+		
+		int skupina = 0;
+		for(Zamestnanec z : databaze) 
+		{
+			if(id_zamestnance == z.ID) 
+			{
+				if(z instanceof DatovyAnalytik) 
+				{
+					skupina = 1;
+					Menu.VyhledatZamestnance(z.ID, z.Jmeno, z.Prijmeni, z.RokNarozeni, skupina);
+					return true;
+				}
+				
+				else 
+				{
+					skupina = 2;
+					Menu.VyhledatZamestnance(z.ID, z.Jmeno, z.Prijmeni, z.RokNarozeni, skupina);
+					return true;
+				}
+			}
+			
+		}
+		Menu.GeneralError("Chybné ID", String.format("Nebyl nalezen zaměstnanec s hledaným ID %d.", id_zamestnance));
+		
+		return false;
 	}
 	
 	public boolean dovednostiZamestnance() 
 	{
 		return true;
 	}
+	
+	
+	
 	
 }
