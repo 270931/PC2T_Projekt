@@ -1,11 +1,20 @@
 package main;
 
+import java.util.List;
+
 public class BezpecnostniSpecialista extends Zamestnanec 
 {
 	public BezpecnostniSpecialista(int id, String jmeno, String prijmeni, int rokNarozeni) 
 	{
 		super(id, jmeno, prijmeni, rokNarozeni);
 	}
+	
+	@Override
+	public void Dovednost(List<Zamestnanec> databaze)
+	{
+		// dodělat
+	}
+	
 	@Override
 	public String toString() 
 	{

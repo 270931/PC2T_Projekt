@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Handler 
 {
@@ -312,9 +313,28 @@ public class Handler
 		return false;
 	}
 	
-	public boolean dovednostiZamestnance() 
+	public boolean dovednostiZamestnance() throws InterruptedException 
 	{
-		return true;
+		Menu.StandartHeader("Dovednosti zaměstance");
+		System.out.print("\t\t\t\t |    Zadejte ID zaměstance jehož dovednost    |\n"+
+				 		 "\t\t\t\t |               chcete využít.                |\n"+
+				 		 "\t\t\t\t |                                             |\n"+
+				 		 "\t\t\t\t |  ID zaměstnance: ");
+		int id=sc.nextInt();
+		for(Zamestnanec i : databaze)
+		{
+			if(id == i.ID)
+			{
+				i.Dovednost(databaze);
+				return true;
+			}
+		}
+		
+		Menu.GeneralError("Chyba ID", "Vámi zadané ID nebylo v databázi nalezeno. Prosím, opakujte akci s jiným ID.");
+		return false;
+						 
+
+		
 	}
 	
 	public boolean zapisDoSouboru(String jmenoSouboru) throws InterruptedException
@@ -393,9 +413,20 @@ public class Handler
 					databaze.add(s);
 					pocet += 1;
 				}
-				//dodelat spoluprace
+				
+				Zamestnanec c = databaze.get(databaze.size()-1);
+				for(int i = 5; i < atributy.length; i++)
+				{
+					int vazba = Integer.parseInt(atributy[i]);
+					int id_kolegy = Math.floorDiv(vazba, 10); // tohle ten číselný formát zápisu spolupráce (např. 9232) vydělí 10 a vše za desetinou čárkou 
+															  //    zahodí => 9232 / 10 = 923.2 => 923
+					int uroven = (vazba - Math.floorDiv(vazba, 10)*10);
+					
+					c.spoluprace.put(id_kolegy, uroven);
+				}
 			}
 			Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
+			TimeUnit.SECONDS.sleep(5);
 		} 
 		catch (FileNotFoundException e) 
 		{

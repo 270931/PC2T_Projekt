@@ -1,6 +1,7 @@
 package main;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Zamestnanec 
@@ -31,6 +32,8 @@ public abstract class Zamestnanec
 		this.Prijmeni = prijmeni;
 		this.RokNarozeni = rokNarozeni;
 	}
+	
+	protected void Dovednost(List<Zamestnanec> databaze) {};
 	
 	
 	// společný textový výpis o zaměstnanci

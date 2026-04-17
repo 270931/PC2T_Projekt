@@ -392,6 +392,22 @@ public class Menu {
 		TimeUnit.SECONDS.sleep(5);
 	}
 	
+	public static void DovednostAnalytik(int id, int id_kolegy, int maxSpolupraci) throws InterruptedException
+	{
+		StandartHeader(String.format("Výsledek dovednosti zaměstanance ID%d", id));
+		System.out.printf(
+				"\t\t\t\t |           ID kolegy:   %-20d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |    Počet společných                         |\n"+
+				"\t\t\t\t |          spoluprací:   %-20d |\n"+   
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n", id_kolegy, maxSpolupraci
+			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
+	}
 	
 	
 	
