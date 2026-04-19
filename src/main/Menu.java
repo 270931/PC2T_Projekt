@@ -110,7 +110,9 @@ public class Menu {
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t | 3    Zaměstnanec s nejvíce vazbami          |\n"+
 				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 4    Konec                                  |\n"+
+				"\t\t\t\t | 4    Počet zaměstnanců ve skupinách         |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | 5    Konec                                  |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n"+
@@ -430,37 +432,80 @@ public class Menu {
 	}
 	
 	public static void Seznam(List<Zamestnanec> databaze)
-	{
-		System.out.printf(
-	            "\t\t\t\t |                                                                                                                   |\n"+
-	            "\t\t\t\t-+-------------------------------------------------------------------------------------------------------------------+-\n"+
-	            "\t\t\t\t |                                                                                                                   |\n"+
-	            "\t\t\t\t |                          ABECEDNÍ  SEZNAM  ZAMĚSTNANCŮ  AKTUÁLNĚ  ULOŽENÝCH  V  DATABÁZI                          |\n"+
-	            "\t\t\t\t |                                                                                                                   |\n"+
-	            "\t\t\t\t-+--ID---+--Jméno--------------+--Přijmení-----------+--Rok Narození--+--Pracovní skupina---------+--No. Spoluprací--+\n"+
-	            "\t\t\t\t |       |                     |                     |                |                           |                  |\n"+
-	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Bezpečností Specialista  |       d3d        |\n"+
-	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
-	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Datový Analytik          |       d3d        |\n"+
-	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
-	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Bezpečností Specialista  |       d3d        |\n"+
-	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
-	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	{		
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+	            "\t\t\t\t |                                                                                                                    |\n"+
+	            "\t\t\t\t-+--------------------------------------------------------------------------------------------------------------------+-\n"+
+	            "\t\t\t\t |                                                                                                                    |\n"+
+	            "\t\t\t\t |                          ABECEDNÍ  SEZNAM  ZAMĚSTNANCŮ  AKTUÁLNĚ  ULOŽENÝCH  V  DATABÁZI                           |\n"+
+	            "\t\t\t\t |                                                                                                                    |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+----------------------------+------------------+\n"+
+	            "\t\t\t\t |  ID   |  Jméno              |  Přijmení           |  Rok Narození  |  Pracovní Skupina          |  No. Spoluprací  |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+----------------------------+------------------+\n");
+		
+		for (Zamestnanec i : databaze)
+		{
+			System.out.printf(
+				"\t\t\t\t |  %-3d  |  %-17s  |  %-17s  |      %-4d      |  %-24s  |        %-2d        |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+----------------------------+------------------+\n",
+	            i.ID, i.Jmeno, i.Prijmeni, i.RokNarozeni, (i instanceof DatovyAnalytik) ? "Datový Analytik" : "Bezpečnostní Specialista", i.spoluprace.size());
+		}
 		
 		System.out.printf(
-	            "\t\t\t\t |                                                                                                                   |\n"+
-	            "\t\t\t\t-+-------------------------------------------------------------------------------------------------------------------+-\n"+
-	            "\t\t\t\t |                                                                                                                   |\n"+
-	            "\t\t\t\t |                          ABECEDNÍ  SEZNAM  ZAMĚSTNANCŮ  AKTUÁLNĚ  ULOŽENÝCH  V  DATABÁZI                          |\n"+
-	            "\t\t\t\t |                                                                                                                   |\n"+
-	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
-	            "\t\t\t\t |  ID   |  Jméno              |  Přijmení           |  Rok Narození  |  Pracovní Skupina         |  No. Spoluprací  |\n"+
-	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
-	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Bezpečností Specialista  |       d3d        |\n"+
-	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
-	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Datový Analytik          |       d3d        |\n"+
-	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
-	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	            "\t\t\t\t |                                                                                                                    |\n"+
+	            "\t\t\t\t |                                      Do Hlavního menu se vrátíte stiskem ENTER                                     |\n"+
+	            "\t\t\t\t-+--------------------------------------------------------------------------------------------------------------------+-\n");
+		
+	}
+	
+	public static void KvalitaSpoluprace(String spoluprace, int pocet) throws InterruptedException
+	{
+		StandartHeader("Převažující kvalita spolupráce");
+		System.out.printf(
+				"\t\t\t\t | Převažující spolupráce:   %-17s |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |       Počet spoluprací:   %-17d |\n"+   
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", spoluprace, pocet/2
+			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
+	}
+	
+	public static void NejviceSpolupraci(int ID, int pocet) throws InterruptedException
+	{
+		StandartHeader("Zaměstnanec s nejvíce spolupracemi");
+		System.out.printf(
+				"\t\t\t\t |               ID :   %-22d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |  Počet spoluprací:   %-22d |\n"+   
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", ID, pocet
+			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
+	}
+	
+	public static void PocetZamestnancuVeSkupinach(int datovych, int bezpec) throws InterruptedException
+	{
+		StandartHeader("Počet zaměstnanců podle skupin");
+		System.out.printf(
+				"\t\t\t\t |         Datových Analytiků :   %-12d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |  Bezpečnostních Specialistů:   %-12d |\n"+   
+				"\t\t\t\t |  --------------------------                 |\n"+
+				"\t\t\t\t |                      Celkem:   %-12d |\n"+   
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", datovych, bezpec, datovych+bezpec
+			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
 	}
 	
 	

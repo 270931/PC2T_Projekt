@@ -1,14 +1,9 @@
 package main;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.Comparator;
+import java.text.Collator;
 
 public class Handler 
 {
@@ -219,7 +214,6 @@ public class Handler
 		return true;
 	}
 	
-	// neotestovano
 	public boolean odebratSpolupraci() throws InterruptedException 
 	{
 		Menu.StandartHeader("Odebrání spolupráce mezi zaměstnanci");
@@ -275,12 +269,12 @@ public class Handler
 		if(spoluprace_nalezena)
 		{
 			Menu.GeneralError("Spolupráce úspěšně odebrána.", String.format("Spolupráce mezi zaměstnanci "
-					+ "ID%d a ID%d byla úspěšně odebrána. %d", id_zamestnance, id_kolegy, odebranych_spolupraci));
+					+ "ID%d a ID%d byla úspěšně odebrána. (%d)", id_zamestnance, id_kolegy, odebranych_spolupraci/2));
 			return true;
 		}
 		
 		Menu.GeneralError("ID zaměstnance nenalezeno", "V programu nastala chyba, v databázi nebylo"
-				+ "možné najít buď ID zaměstnance nebo kolegy. Prosím, opakujte akci.");
+				+ " možné najít buď ID zaměstnance nebo kolegy. Prosím, opakujte akci.");
 		// vykoná se pokud ID zaměstnance neexistuje
 		return false;
 	}
@@ -332,7 +326,7 @@ public class Handler
 				}
 				else 
 				{
-					
+					i.Dovednost(databaze);
 				}
 				
 				return true;
@@ -340,11 +334,130 @@ public class Handler
 		}
 		
 		Menu.GeneralError("Chyba ID", "Vámi zadané ID nebylo v databázi nalezeno. Prosím, opakujte akci s jiným ID.");
-		return false;
-						 
-
-		
+		return false;		
 	}
+	
+	
+	// ---------------------STATISTIKY---------------------------------------
+	
+	public boolean vypisZamestnancu()
+	{
+		// Collator je classa přesně dělaná pro porovnávání stringů podle pravidel nějakého přirozeného jazyka a.k.a. CZ
+		// Collator beze jako data typ class Locale
+		@SuppressWarnings("deprecation")
+		Collator cz = Collator.getInstance(new Locale("cz", "CZ"));
+		
+		databaze.sort(Comparator.comparing((Zamestnanec z) -> z.getClass().getSimpleName()).thenComparing(Zamestnanec::getPrijmeni, cz));
+		Menu.Seznam(databaze);
+		sc.nextLine();
+		return true;
+	}
+	
+	public boolean kvalitaSpoluprace()
+	{
+		int dobra = 0, prum = 0, spatna = 0;
+		
+		for (Zamestnanec current : databaze)
+		{
+			for(Integer i : current.spoluprace.values())
+			{
+				switch (i)
+				{
+				case 1:
+					spatna++;
+					break;
+				case 2:
+					prum++;
+					break;
+				case 3:
+					dobra++;
+					break;
+				}
+			}
+		}
+		
+		try 
+		{
+			if(spatna > prum | spatna > dobra)
+			{
+				Menu.KvalitaSpoluprace("Špatná", spatna);
+			}
+			else if(prum > spatna | prum > dobra)
+			{
+				Menu.KvalitaSpoluprace("Průměrná", prum);
+			}
+			else
+			{
+				Menu.KvalitaSpoluprace("Dobrá", dobra);
+			}
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean maxVazbySpoluprace()
+	{
+		int maxVazeb = 0;
+		int max_ID = 0;
+		
+		for(Zamestnanec i : databaze)
+		{
+			if(i.spoluprace.values().size() > maxVazeb)
+			{
+				maxVazeb = i.spoluprace.values().size();
+				max_ID = i.ID;
+			}
+		}
+		
+		if(maxVazeb == 0)
+		{
+			try {
+				Menu.GeneralError("Nenalezeny žádné vazby", "Program nemohl vyhodnotit nejvyšší počet vazeb, protože žádné vazby nenašel. Prosím, přidejte nějaké vazby a opakujte akci.");
+			} catch (InterruptedException e) {
+			}
+			return false;
+		}
+		else {
+			try {
+				Menu.NejviceSpolupraci(max_ID, maxVazeb);
+			} catch (InterruptedException e) {
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	public boolean pocetZamestnancuVeSkupinach()
+	{
+		int datovych = 0, bezpec = 0;
+		
+		for(Zamestnanec i : databaze)
+		{
+			if(i instanceof DatovyAnalytik)
+			{
+				datovych++;
+			}
+			else {
+				bezpec++;
+			}
+		}
+		
+		try {
+			Menu.PocetZamestnancuVeSkupinach(datovych, bezpec);
+		} catch (InterruptedException e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	
+	// ---------------------SOUBORY---------------------------------------
 	
 	public boolean zapisDoSouboru(String jmenoSouboru) throws InterruptedException
 	{
@@ -450,14 +563,4 @@ public class Handler
 		return true;
 	}
 	
-	public boolean seznam()
-	{
-		// Comparator seřadí záznamy podle názvu třídy, pokud názvy třídy jsou stejné, začne řadit podle přijmení
-		databaze.sort(Comparator.comparing((Zamestnanec z) -> z.getClass().getSimpleName()).thenComparing(Zamestnanec::getPrijmeni));
-		
-		Menu.Seznam(databaze);
-		
-		return true;
-		
-	}
 }

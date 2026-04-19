@@ -124,7 +124,7 @@ public class ProjektStart {
 						sc.next();
 					}
 					
-					/*switch(vyber) 
+					switch(vyber) 
 					{
 						case 1:
 							if(hr.vypisZamestnancu()) 
@@ -148,15 +148,22 @@ public class ProjektStart {
 							break;
 						
 						case 4:
+							if(hr.pocetZamestnancuVeSkupinach())
+							{
+								System.out.print("Success");
+							}
+							break;
+						
+						case 5:
 							break;
 							
 						
 						default:
-							Menu.GeneralError("Chyba volby v Menu Zaměstnanci", "Dopustili jste se chyby při zadávání vaší volby pro"
+							Menu.GeneralError("Chyba volby v Menu Statistiky", "Dopustili jste se chyby při zadávání vaší volby pro"
 									+ " submenu. Prosím, zkuste to znovu.");
 							break;
 							
-					}*/
+					}
 					break;
 				
 				case 3:
@@ -194,7 +201,7 @@ public class ProjektStart {
 							
 						
 						default:
-							Menu.GeneralError("Chyba volby v Menu Zaměstnanci", "Dopustili jste se chyby při zadávání vaší volby pro"
+							Menu.GeneralError("Chyba volby v Menu Souborových operací", "Dopustili jste se chyby při zadávání vaší volby pro"
 									+ " submenu. Prosím, zkuste to znovu.");
 							break;
 							
@@ -203,8 +210,12 @@ public class ProjektStart {
 					
 				case 4:
 					Menu.Konec();
-					// uložení do databáze
-					exit = true;
+					String e = sc.next();
+					if(e.toLowerCase().startsWith("a"))
+					{
+						exit = true;
+						sc.close();
+					}
 					break;
 				
 				default:
@@ -218,8 +229,9 @@ public class ProjektStart {
 
 		} while(!exit);
 		
+		
+		// tady se bude ukládat do databáze
+		
 		System.out.print("Ukončeno.");
-		sc.close();
 	}
-
 }
