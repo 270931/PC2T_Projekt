@@ -33,7 +33,9 @@ public abstract class Zamestnanec
 		this.RokNarozeni = rokNarozeni;
 	}
 	
-	protected void Dovednost(List<Zamestnanec> databaze) {};
+	protected void Dovednost(List<Zamestnanec> databaze) {}
+	protected void Dovednost() {}
+	public String getPrijmeni() { return this.Prijmeni;}
 	
 	
 	// společný textový výpis o zaměstnanci

@@ -1,5 +1,6 @@
 package main;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -271,7 +272,7 @@ public class Menu {
 				"\t\t\t\t |      Skupina:   %-27s |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n", id, jmeno, prijmeni, rokNarozeni, zamereni
+				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", id, jmeno, prijmeni, rokNarozeni, zamereni
 			);
 		
 		// wait 5 seconds
@@ -302,7 +303,7 @@ public class Menu {
 				"\t\t\t\t |         %3d <-> %3d       %8s          |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n", id_zamestnance, id_kolegy, urovenString
+				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", id_zamestnance, id_kolegy, urovenString
 			);
 		
 		// wait 5 seconds
@@ -402,11 +403,64 @@ public class Menu {
 				"\t\t\t\t |          spoluprací:   %-20d |\n"+   
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
-				"\t\t\t\t |                                             |\n", id_kolegy, maxSpolupraci
+				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", id_kolegy, maxSpolupraci
 			);
 		
 		// wait 5 seconds
 		TimeUnit.SECONDS.sleep(5);
+	}
+	
+	public static void DovednostBezpecnostni(int id, int score, int pocetSpolupraci) throws InterruptedException
+	{
+		StandartHeader(String.format("Výsledek dovednosti zaměstanance ID%d", id));
+		System.out.printf(
+				"\t\t\t\t |    Počet spoluprací:   %-20d |\n"+
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t |      Rizikové skóre:   %-20d |\n"+   
+				"\t\t\t\t |                                             |\n"+
+				"\t\t\t\t | (Rizikové skóre dává na škále 0-100 kvalitu |\n"+
+				"\t\t\t\t |   spoluprací, které tento zaměstance má.    |\n"+
+				"\t\t\t\t |   100 - velmi špatné; 0 - nejlepší možné)   |\n"+
+				"\t\t\t\t-+---------------------------------------------+-\n"+
+				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", pocetSpolupraci, score
+			);
+		
+		// wait 5 seconds
+		TimeUnit.SECONDS.sleep(5);
+	}
+	
+	public static void Seznam(List<Zamestnanec> databaze)
+	{
+		System.out.printf(
+	            "\t\t\t\t |                                                                                                                   |\n"+
+	            "\t\t\t\t-+-------------------------------------------------------------------------------------------------------------------+-\n"+
+	            "\t\t\t\t |                                                                                                                   |\n"+
+	            "\t\t\t\t |                          ABECEDNÍ  SEZNAM  ZAMĚSTNANCŮ  AKTUÁLNĚ  ULOŽENÝCH  V  DATABÁZI                          |\n"+
+	            "\t\t\t\t |                                                                                                                   |\n"+
+	            "\t\t\t\t-+--ID---+--Jméno--------------+--Přijmení-----------+--Rok Narození--+--Pracovní skupina---------+--No. Spoluprací--+\n"+
+	            "\t\t\t\t |       |                     |                     |                |                           |                  |\n"+
+	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Bezpečností Specialista  |       d3d        |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
+	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Datový Analytik          |       d3d        |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
+	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Bezpečností Specialista  |       d3d        |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
+	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		
+		System.out.printf(
+	            "\t\t\t\t |                                                                                                                   |\n"+
+	            "\t\t\t\t-+-------------------------------------------------------------------------------------------------------------------+-\n"+
+	            "\t\t\t\t |                                                                                                                   |\n"+
+	            "\t\t\t\t |                          ABECEDNÍ  SEZNAM  ZAMĚSTNANCŮ  AKTUÁLNĚ  ULOŽENÝCH  V  DATABÁZI                          |\n"+
+	            "\t\t\t\t |                                                                                                                   |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
+	            "\t\t\t\t |  ID   |  Jméno              |  Přijmení           |  Rok Narození  |  Pracovní Skupina         |  No. Spoluprací  |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
+	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Bezpečností Specialista  |       d3d        |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
+	            "\t\t\t\t |  999  |  sssssss17ssssssss  |  sssssss17ssssssss  |      d04d      |  Datový Analytik          |       d3d        |\n"+
+	            "\t\t\t\t-+-------+---------------------+---------------------+----------------+---------------------------+------------------+\n"+
+	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	}
 	
 	

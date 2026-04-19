@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.Comparator;
 
 public class Handler 
 {
@@ -325,7 +326,15 @@ public class Handler
 		{
 			if(id == i.ID)
 			{
-				i.Dovednost(databaze);
+				if(i instanceof BezpecnostniSpecialista) 
+				{
+					i.Dovednost();
+				}
+				else 
+				{
+					
+				}
+				
 				return true;
 			}
 		}
@@ -439,5 +448,16 @@ public class Handler
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean seznam()
+	{
+		// Comparator seřadí záznamy podle názvu třídy, pokud názvy třídy jsou stejné, začne řadit podle přijmení
+		databaze.sort(Comparator.comparing((Zamestnanec z) -> z.getClass().getSimpleName()).thenComparing(Zamestnanec::getPrijmeni));
+		
+		Menu.Seznam(databaze);
+		
+		return true;
+		
 	}
 }
