@@ -1,9 +1,17 @@
 package main;
 
 import java.io.*;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.text.Collator;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Handler 
 {
@@ -378,11 +386,11 @@ public class Handler
 		
 		try 
 		{
-			if(spatna > prum | spatna > dobra)
+			if(spatna > prum || spatna > dobra)
 			{
 				Menu.KvalitaSpoluprace("Špatná", spatna);
 			}
-			else if(prum > spatna | prum > dobra)
+			else if(prum > spatna || prum > dobra)
 			{
 				Menu.KvalitaSpoluprace("Průměrná", prum);
 			}
@@ -488,13 +496,12 @@ public class Handler
 					{
 						bw.write(";" + k + v);
 					} 
-					catch (IOException e) {
-						// TODO Auto-generated catch block
+					catch (IOException e) 
+					{
 						e.printStackTrace();
 					}
 				});
 				
-				//bw.write(z.toString() + ";" + skupina);
 				bw.newLine();
 			}
 			return true;
@@ -523,28 +530,31 @@ public class Handler
 				int rok = Integer.parseInt(atributy[3]);
 				int skupina = Integer.parseInt(atributy[4]);
 				
-				if(skupina == 1) 
+				if (this.zkontrolujUnikatniID(id) == true) 
 				{
-					DatovyAnalytik a = new DatovyAnalytik(id, jmeno, prijmeni, rok);
-					databaze.add(a);
-					pocet += 1;
-				}
-				else if (skupina == 2) 
-				{
-					BezpecnostniSpecialista s = new BezpecnostniSpecialista(id, jmeno, prijmeni, rok);
-					databaze.add(s);
-					pocet += 1;
-				}
-				
-				Zamestnanec c = databaze.get(databaze.size()-1);
-				for(int i = 5; i < atributy.length; i++)
-				{
-					int vazba = Integer.parseInt(atributy[i]);
-					int id_kolegy = Math.floorDiv(vazba, 10); // tohle ten číselný formát zápisu spolupráce (např. 9232) vydělí 10 a vše za desetinou čárkou 
-															  //    zahodí => 9232 / 10 = 923.2 => 923
-					int uroven = (vazba - Math.floorDiv(vazba, 10)*10);
+					if(skupina == 1) 
+					{
+						DatovyAnalytik a = new DatovyAnalytik(id, jmeno, prijmeni, rok);
+						databaze.add(a);
+						pocet += 1;
+					}
+					else if (skupina == 2) 
+					{
+						BezpecnostniSpecialista s = new BezpecnostniSpecialista(id, jmeno, prijmeni, rok);
+						databaze.add(s);
+						pocet += 1;
+					}
 					
-					c.spoluprace.put(id_kolegy, uroven);
+					Zamestnanec c = databaze.get(databaze.size()-1);
+					for(int i = 5; i < atributy.length; i++)
+					{
+						int vazba = Integer.parseInt(atributy[i]);
+						int id_kolegy = Math.floorDiv(vazba, 10); // tohle ten číselný formát zápisu spolupráce (např. 9232) vydělí 10 a vše za desetinou čárkou 
+																  //    zahodí => 9232 / 10 = 923.2 => 923
+						int uroven = (vazba - Math.floorDiv(vazba, 10)*10);
+						
+						c.spoluprace.put(id_kolegy, uroven);
+					}
 				}
 			}
 			Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
@@ -562,5 +572,166 @@ public class Handler
 		}
 		return true;
 	}
+	//--------------SQL-----------------
+	
+	private Connection pripojeni; 
+	
+	public boolean connect(String nazevDatabaze) 
+	{ 
+		pripojeni = null; 
+		try 
+		{
+			pripojeni = DriverManager.getConnection("jdbc:sqlite:zamestnanci.db");                 
+		} 
+		catch (SQLException e) 
+		{ 
+			System.out.println(e.getMessage());
+			return false;
+		}
+		return true;
+	}
+	
+	public void disconnect() 
+	{ 
+		if (pripojeni != null) 
+		{
+			try 
+			{ 
+				pripojeni.close();
+			} 
+			catch (SQLException e) 
+			{ 
+				System.out.println(e.getMessage()); 
+			}
+		}
+	}
+	
+	public boolean createTable()
+	{
+		if (pripojeni == null) 
+		{
+			return false;
+		}
+		String sql = "CREATE TABLE IF NOT EXISTS Zamestnanci"
+				+ "(id INT PRIMARY KEY,"
+				+ "jmeno VARCHAR (100),"
+				+ "prijmeni VARCHAR (100),"
+				+ "rokNarozeni INT,"
+				+ "skupina INT,"
+				+ "spoluprace INT DEFAULT 0)";
+		try
+		{
+			Statement stmt = pripojeni.createStatement(); 
+			stmt.execute(sql);
+			return true;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	
+//vlozeni zaznamu na konci programu
+	public boolean insert() throws InterruptedException 
+	{
+		if (databaze.isEmpty()) 
+		{
+			Menu.GeneralError("Prázdná databáze", "Není možný zápis do souboru, databáze je prázdná.");
+			return false;
+		}
+		for(Zamestnanec z : databaze) 
+		{
+			int id = z.ID;
+			String jmeno = z.Jmeno;
+			String prijmeni = z.Prijmeni;
+			int rokNarozeni = z.RokNarozeni;
+			int skupina = 0;
+			if(z instanceof DatovyAnalytik) 
+			{
+				skupina = 1;
+			}
+			else 
+			{
+				skupina = 2;	
+			}
+			//uklada pouze jednu spolupraci
+			String sql = "INSERT OR REPLACE INTO Zamestnanci(id, jmeno, prijmeni, rokNarozeni, skupina, spoluprace) VALUES(?,?,?,?,?,?)";
+	        try {
+	            PreparedStatement pstmt = pripojeni.prepareStatement(sql);
+	            pstmt.setInt(1, id);
+	            pstmt.setString(2, jmeno);
+	            pstmt.setString(3, prijmeni);
+	            pstmt.setInt(4, rokNarozeni);
+	            pstmt.setInt(5, skupina);
+	            z.spoluprace.forEach((k,v) -> 
+				{
+					String spojene = String.valueOf(k) + String.valueOf(v);
+					int vazba = Integer.parseInt(spojene);
+					try {
+						pstmt.setInt(6, vazba);
+					} catch (SQLException e) 
+					{
+						e.printStackTrace();
+					}
+				});
+	            pstmt.executeUpdate();
+	        } 
+	         catch (SQLException e) {
+	        	 
+	             System.out.println(e.getMessage());
+	        }
+		}
+		return true;
+        
+    }
+//nacteni zaznamu na zacatku programu
+	public void selectAll() throws InterruptedException
+	{//nacita pouze jednu spolupraci
+        String sql = "SELECT id, jmeno, prijmeni, rokNarozeni, skupina, spoluprace FROM Zamestnanci";
+        try 
+        {
+             Statement stmt = pripojeni.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql);
+             int pocet = 0;
+             while (rs.next()) 
+			{
+				int id = rs.getInt("id");
+				String jmeno = rs.getString("jmeno");
+				String prijmeni = rs.getString("prijmeni");
+				int rokNarozeni = rs.getInt("rokNarozeni");
+				int skupina = rs.getInt("skupina");
+				int vazba = rs.getInt("spoluprace");
+				
+				if (this.zkontrolujUnikatniID(id) == true) 
+				{
+					if(skupina == 1) 
+					{
+						DatovyAnalytik a = new DatovyAnalytik(id, jmeno, prijmeni, rokNarozeni);
+						databaze.add(a);
+						pocet += 1;
+					}
+					else if (skupina == 2) 
+					{
+						BezpecnostniSpecialista s = new BezpecnostniSpecialista(id, jmeno, prijmeni, rokNarozeni);
+						databaze.add(s);
+						pocet += 1;
+					}
+					
+					Zamestnanec c = databaze.get(databaze.size()-1);
+					int id_kolegy = Math.floorDiv(vazba, 10);
+					int uroven = (vazba - Math.floorDiv(vazba, 10)*10);
+					c.spoluprace.put(id_kolegy, uroven);
+				}
+			}
+            Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
+ 			TimeUnit.SECONDS.sleep(5);
+        } 
+        catch (SQLException e) 
+        {
+             System.out.println(e.getMessage());
+        }
+	}
+
 	
 }

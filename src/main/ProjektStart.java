@@ -6,13 +6,17 @@ public class ProjektStart {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		
-		
-		
 		boolean exit = false;
 		Scanner sc = new Scanner(System.in);
 		Handler hr = new Handler();
 		
+		if (!hr.connect("zamestnanci.db"))
+	    {
+	    	System.out.println("K databázi se nebylo možné připojit");
+	    	return;
+	    }
+		hr.createTable();
+		//hr.selectAll();
 		// načtení z databáze
 		
 		do 
@@ -231,6 +235,8 @@ public class ProjektStart {
 		
 		
 		// tady se bude ukládat do databáze
+		hr.insert();
+		hr.disconnect();
 		
 		System.out.print("Ukončeno.");
 	}
