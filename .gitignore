@@ -11,6 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
+!sqlite-jdbc-3.51.3.0.jar
 *.jar
 *.war
 *.nar
