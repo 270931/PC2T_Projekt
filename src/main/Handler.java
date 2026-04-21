@@ -606,7 +606,7 @@ public class Handler
 		}
 	}
 	
-	public boolean createTable()
+	public boolean createTableZamestnanci()
 	{
 		if (pripojeni == null) 
 		{
@@ -617,8 +617,31 @@ public class Handler
 				+ "jmeno VARCHAR (100),"
 				+ "prijmeni VARCHAR (100),"
 				+ "rokNarozeni INT,"
-				+ "skupina INT,"
-				+ "spoluprace INT DEFAULT 0)";
+				+ "skupina INT)";
+		try
+		{
+			Statement stmt = pripojeni.createStatement(); 
+			stmt.execute(sql);
+			return true;
+		} 
+		catch (SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	
+	public boolean createTableSpoluprace()
+	{
+		if (pripojeni == null) 
+		{
+			return false;
+		}
+		String sql = "CREATE TABLE IF NOT EXISTS Spoluprace"
+				+ "(id_zamestnance INT,"
+				+ "id_kolegy INT,"
+			    + "uroven_spoluprace INT,"
+				+ "FOREIGN KEY(id_zamestnance) REFERENCES Zamestnanci(id))";
 		try
 		{
 			Statement stmt = pripojeni.createStatement(); 
@@ -637,7 +660,7 @@ public class Handler
 	{
 		if (databaze.isEmpty()) 
 		{
-			Menu.GeneralError("Prázdná databáze", "Není možný zápis do souboru, databáze je prázdná.");
+			Menu.GeneralError("Prázdná databáze", "Není možný zápis do sql, databáze je prázdná.");
 			return false;
 		}
 		for(Zamestnanec z : databaze) 
@@ -655,8 +678,7 @@ public class Handler
 			{
 				skupina = 2;	
 			}
-			//uklada pouze jednu spolupraci
-			String sql = "INSERT OR REPLACE INTO Zamestnanci(id, jmeno, prijmeni, rokNarozeni, skupina, spoluprace) VALUES(?,?,?,?,?,?)";
+			String sql = "INSERT OR REPLACE INTO Zamestnanci(id, jmeno, prijmeni, rokNarozeni, skupina) VALUES(?,?,?,?,?)";
 	        try {
 	            PreparedStatement pstmt = pripojeni.prepareStatement(sql);
 	            pstmt.setInt(1, id);
@@ -664,35 +686,49 @@ public class Handler
 	            pstmt.setString(3, prijmeni);
 	            pstmt.setInt(4, rokNarozeni);
 	            pstmt.setInt(5, skupina);
-	            z.spoluprace.forEach((k,v) -> 
-				{
-					String spojene = String.valueOf(k) + String.valueOf(v);
-					int vazba = Integer.parseInt(spojene);
-					try {
-						pstmt.setInt(6, vazba);
-					} catch (SQLException e) 
-					{
-						e.printStackTrace();
-					}
-				});
 	            pstmt.executeUpdate();
 	        } 
 	         catch (SQLException e) {
 	        	 
 	             System.out.println(e.getMessage());
-	        }
+	        }  
 		}
+		insertSpoluprace();
 		return true;
         
     }
+	//chybi kontrola id_kolegy
+	public void insertSpoluprace() 
+	{
+		for(Zamestnanec z : databaze) 
+		{
+			int id_zamestnance = z.ID;
+			String sql = "INSERT OR REPLACE INTO Spoluprace(id_zamestnance, id_kolegy, uroven_spoluprace) VALUES(?,?,?)";
+
+	        z.spoluprace.forEach((k,v) -> 
+			{
+				try 
+				{
+					PreparedStatement pstmt = pripojeni.prepareStatement(sql);
+					pstmt.setInt(1, id_zamestnance);
+					pstmt.setInt(2, k);
+					pstmt.setInt(3, v);
+		            pstmt.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+	}
+	
 //nacteni zaznamu na zacatku programu
 	public void selectAll() throws InterruptedException
-	{//nacita pouze jednu spolupraci
-        String sql = "SELECT id, jmeno, prijmeni, rokNarozeni, skupina, spoluprace FROM Zamestnanci";
+	{
+        String sql = "SELECT id, jmeno, prijmeni, rokNarozeni, skupina FROM Zamestnanci";
         try 
         {
              Statement stmt = pripojeni.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql);
+             ResultSet rs = stmt.executeQuery(sql);
              int pocet = 0;
              while (rs.next()) 
 			{
@@ -701,8 +737,7 @@ public class Handler
 				String prijmeni = rs.getString("prijmeni");
 				int rokNarozeni = rs.getInt("rokNarozeni");
 				int skupina = rs.getInt("skupina");
-				int vazba = rs.getInt("spoluprace");
-				
+
 				if (this.zkontrolujUnikatniID(id) == true) 
 				{
 					if(skupina == 1) 
@@ -717,13 +752,10 @@ public class Handler
 						databaze.add(s);
 						pocet += 1;
 					}
-					
-					Zamestnanec c = databaze.get(databaze.size()-1);
-					int id_kolegy = Math.floorDiv(vazba, 10);
-					int uroven = (vazba - Math.floorDiv(vazba, 10)*10);
-					c.spoluprace.put(id_kolegy, uroven);
+
 				}
 			}
+            selectSpoluprace();
             Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
  			TimeUnit.SECONDS.sleep(5);
         } 
@@ -732,6 +764,33 @@ public class Handler
              System.out.println(e.getMessage());
         }
 	}
-
 	
+	public void selectSpoluprace() //spoluprace se nenacitaji spravne
+	{
+		String sql = "SELECT id_zamestnance, id_kolegy, uroven_spoluprace FROM Spoluprace";
+		
+		Zamestnanec c = databaze.get(databaze.size()-1);
+		try 
+		{
+			Statement stmt = pripojeni.createStatement();
+	        ResultSet rs = stmt.executeQuery(sql);
+	        //int pocet= 0;
+			while (rs.next()) 
+			{
+				int id_kolegy = rs.getInt("id_kolegy");
+				int uroven = rs.getInt("uroven_spoluprace");
+				c.spoluprace.put(id_kolegy, uroven);
+				//System.out.println("spoluprace" + id_kolegy + uroven);
+				//pocet++;
+			}
+			//System.out.println("spoluprace" + pocet);
+			//System.out.println(c.spoluprace);
+		}
+		
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+
 }

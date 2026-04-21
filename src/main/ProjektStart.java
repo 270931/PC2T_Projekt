@@ -15,8 +15,9 @@ public class ProjektStart {
 	    	System.out.println("K databázi se nebylo možné připojit");
 	    	return;
 	    }
-		hr.createTable();
-		//hr.selectAll();
+		hr.createTableZamestnanci();
+		hr.createTableSpoluprace();
+		hr.selectAll();
 		// načtení z databáze
 		
 		do 
