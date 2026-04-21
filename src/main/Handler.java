@@ -572,6 +572,8 @@ public class Handler
 		}
 		return true;
 	}
+	
+	
 	//--------------SQL-----------------
 	
 	private Connection pripojeni; 
@@ -754,8 +756,9 @@ public class Handler
 					}
 
 				}
+				selectSpoluprace(id);
 			}
-            selectSpoluprace();
+            
             Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
  			TimeUnit.SECONDS.sleep(5);
         } 
@@ -765,26 +768,26 @@ public class Handler
         }
 	}
 	
-	public void selectSpoluprace() //spoluprace se nenacitaji spravne
+	public void selectSpoluprace(int id) //spoluprace se nacitaji spravne
 	{
-		String sql = "SELECT id_zamestnance, id_kolegy, uroven_spoluprace FROM Spoluprace";
+		String sql = String.format("SELECT id_zamestnance, id_kolegy, uroven_spoluprace FROM Spoluprace WHERE id_zamestnance=%d",id);
 		
 		Zamestnanec c = databaze.get(databaze.size()-1);
 		try 
 		{
 			Statement stmt = pripojeni.createStatement();
 	        ResultSet rs = stmt.executeQuery(sql);
-	        //int pocet= 0;
+	        int pocet= 0;
 			while (rs.next()) 
 			{
 				int id_kolegy = rs.getInt("id_kolegy");
 				int uroven = rs.getInt("uroven_spoluprace");
 				c.spoluprace.put(id_kolegy, uroven);
-				//System.out.println("spoluprace" + id_kolegy + uroven);
-				//pocet++;
+				System.out.println("spoluprace" + id_kolegy + uroven);
+				pocet++;
 			}
-			//System.out.println("spoluprace" + pocet);
-			//System.out.println(c.spoluprace);
+			System.out.println("spoluprace" + pocet);
+			System.out.println(c.spoluprace);
 		}
 		
 		catch (SQLException e) 

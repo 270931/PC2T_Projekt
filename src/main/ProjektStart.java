@@ -13,15 +13,15 @@ public class ProjektStart {
 		if (!hr.connect("zamestnanci.db"))
 	    {
 	    	System.out.println("K databázi se nebylo možné připojit");
-	    	return;
+			exit = true;
 	    }
+		
 		hr.createTableZamestnanci();
 		hr.createTableSpoluprace();
 		hr.selectAll();
 		// načtení z databáze
-		
-		do 
-		{
+		 
+		while(!exit) {
 			
 			int vyber = 0;
 			
@@ -232,8 +232,7 @@ public class ProjektStart {
 			}
 			
 
-		} while(!exit);
-		
+		}
 		
 		// tady se bude ukládat do databáze
 		hr.insert();
