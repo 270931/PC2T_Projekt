@@ -777,17 +777,17 @@ public class Handler
 		{
 			Statement stmt = pripojeni.createStatement();
 	        ResultSet rs = stmt.executeQuery(sql);
-	        int pocet= 0;
+	        // int pocet= 0;
 			while (rs.next()) 
 			{
 				int id_kolegy = rs.getInt("id_kolegy");
 				int uroven = rs.getInt("uroven_spoluprace");
 				c.spoluprace.put(id_kolegy, uroven);
-				System.out.println("spoluprace" + id_kolegy + uroven);
-				pocet++;
+				// System.out.println("spoluprace" + id_kolegy + uroven);
+				// pocet++;
 			}
-			System.out.println("spoluprace" + pocet);
-			System.out.println(c.spoluprace);
+			// System.out.println("spoluprace" + pocet);
+			// System.out.println(c.spoluprace);
 		}
 		
 		catch (SQLException e) 
