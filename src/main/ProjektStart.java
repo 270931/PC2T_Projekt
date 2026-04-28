@@ -8,7 +8,7 @@ public class ProjektStart {
 
 		boolean exit = false;
 		Scanner sc = new Scanner(System.in);
-		Handler hr = new Handler();
+		Spravce hr = new Spravce();
 		
 		if (!hr.connect("zamestnanci.db"))
 	    {
@@ -146,7 +146,7 @@ public class ProjektStart {
 							break;
 						
 						case 3:
-							if(hr.maxVazbySpoluprace())
+							if(hr.maxVazebSpoluprace())
 							{
 								System.out.print("Success");
 							}

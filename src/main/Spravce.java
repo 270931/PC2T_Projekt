@@ -13,17 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Handler 
+public class Spravce 
 {
-	// jelikož Analytik a Bezpečák jsou typu Zaměstnance, můžeme vytvořit list zaměstnanců typu Zaměstnanec a
-	//  pokud budeme chtít s pracovat s metodou specifickou pro jednu danou třídu, budeme muset zkontrolovat typ pomocí 'instanceof ()'
 	private List<Zamestnanec> databaze = new ArrayList<Zamestnanec>();
 	private Scanner sc = new Scanner(System.in);
 	
-	// HOTOVO
 	private boolean zkontrolujUnikatniID(int kontrolovaneID) 
 	{
-		// projdi každý prvek uložený v databázi
 		for(Zamestnanec i : databaze) 
 		{
 			if(kontrolovaneID == i.ID) 
@@ -34,37 +30,30 @@ public class Handler
 		return true;
 	}
 	
-	// HOTOVO
 	public boolean pridatZamenstnance() throws InterruptedException
 	{
-		//generace ID
 		int ID = 0;
 		boolean prijatelneID = false;
 		while (!prijatelneID) 
 		{
 			ID = (int)(Math.random() * 1000);
-			
-			// checkuj, jestli je ID 3-místné číslo a.k.a. 100 až 999
 			if (ID > 99) 
 			{
-				// do 'prijatelneID' loadni true/false, pokud je ID unikátní
 				prijatelneID = this.zkontrolujUnikatniID(ID);
 			}
 		}
 		
-		// uvedení, co se to vlastně dělá
-		Menu.StandartHeader("Přidávání nového zaměstnance (ID " + ID  + ")");
-		
+		Menu.StandartHeader("Přidávání nového zaměstnance (ID " + ID  + ")");		
 		System.out.print("\t\t\t\t |  Jméno nového zaměstnance: ");
 		String jmeno=sc.next();
 		System.out.print("\t\t\t\t |  \n");
-		
 		System.out.printf("\t\t\t\t |  Přijmení nového zaměstnance: ");
 		String prijmeni=sc.next();
 		System.out.print("\t\t\t\t |  \n");
 		
 		int rokNarozeni = 0;
-		do{
+		do
+		{
 			System.out.printf("\t\t\t\t |  Rok narození nového zaměstnance: ");
 			rokNarozeni = sc.nextInt();
 			System.out.print("\t\t\t\t |  \n");
@@ -73,10 +62,9 @@ public class Handler
 				System.out.printf("\t\t\t\t |  Takovýto rok narození je nemožný. \n");
 				System.out.print("\t\t\t\t |  \n");
 			}
-		}while((1940 > rokNarozeni) || (rokNarozeni > 2010));
-		
-		
-		// dodělat rozdělení do skupin
+		}
+		while((1940 > rokNarozeni) || (rokNarozeni > 2010));
+
 		int skupina = 0;
 		Menu.VyberSkupiny();
 		
@@ -86,10 +74,9 @@ public class Handler
 		}
 		else 
 		{
-			//skupina = 99;
+			//skupina = 99; ????
 			sc.next();
 		}
-		
 		
 		if(skupina == 1) 
 		{
@@ -109,11 +96,9 @@ public class Handler
 		{
 			Menu.GeneralError("Chyba - Nesprávný výběr skupiny", "Váš výběr" + skupina + " je neplatným výběrem. Prosím, vyberte pouze z nabízených možností.");
 			return false;
-		}
-		
+		}	
 	}
-	
-	// HOTOVO
+
 	public boolean pridatSpolupraci() throws InterruptedException 
 	{
 		Menu.StandartHeader("Přidávání spolupráce");
@@ -124,39 +109,34 @@ public class Handler
 		System.out.print("\t\t\t\t |\n\t\t\t\t |  1 - špatná; 2 - průměrná; 3 - dobrá ");
 		System.out.print("\n\t\t\t\t |  Zadejte úroveň spolupráce (1-3): ");
 		int urovenSpoluprace = sc.nextInt();
-		
-		// kontrola rozdílnosti ID
+
 		if(id_zamestnance == id_kolegy)
 		{
 			Menu.GeneralError("Nelze přidat spolupráci", "Není možné přidat spolupráci sobě sama. Prosím zvolte ID jiného člověka a opakujte akci.");
 			return false;
 		}
 
-		
-		boolean zamestnanecExists = false;
-		boolean kolegaExists = false;
+		boolean zamestnanecExistuje = false;
+		boolean kolegaExistuje = false;
 		int zamestnanecIndex = 0, kolegaIndex = 0;
-		
-		// najdi jestli obě ID existují
-		for (Zamestnanec current : databaze)
+
+		for(Zamestnanec z : databaze)
 		{
-			if(current.ID == id_zamestnance)
+			if(z.ID == id_zamestnance)
 			{
-				zamestnanecExists = true;
-				zamestnanecIndex = databaze.indexOf(current);
+				zamestnanecExistuje = true;
+				zamestnanecIndex = databaze.indexOf(z);
 			}
-			if(current.ID == id_kolegy)
+			if(z.ID == id_kolegy)
 			{
-				kolegaExists = true;
-				kolegaIndex = databaze.indexOf(current);
+				kolegaExistuje = true;
+				kolegaIndex = databaze.indexOf(z);
 			}
-			if(zamestnanecExists & kolegaExists)
+			if(zamestnanecExistuje && kolegaExistuje)
 			{
-				// přidání spolupráce do zaměstnance
 				Zamestnanec a = databaze.get(zamestnanecIndex);
 				a.spoluprace.put(id_kolegy, urovenSpoluprace);
-				
-				// přidání spolupráce do kolegy
+
 				Zamestnanec b = databaze.get(kolegaIndex);
 				b.spoluprace.put(id_zamestnance, urovenSpoluprace);
 				
@@ -164,12 +144,12 @@ public class Handler
 				return true;
 			}
 		}
+		
 		Menu.GeneralError("Nenalezeny požadované ID", String.format("Pokud toto čtete, znamená to, že program nemohl v databázi najít "
 				+ "jedno nebo obě Vámi zadané ID (%d; %d). Prosím, zkontrolujte vámi zadané ID a opakujte akci.", id_zamestnance, id_kolegy));
 		return false;
 	}
-	
-	// HOTOVO
+
 	public boolean odebratZamestnance() throws InterruptedException 
 	{
 		Menu.StandartHeader("Odebrání zaměstnance");
@@ -177,9 +157,9 @@ public class Handler
 		int id_zamestnance = sc.nextInt();
 		int odebranych_vazeb = 0;
 		
-		for(Zamestnanec current : databaze)
+		for(Zamestnanec z : databaze)
 		{
-			if(current.ID == id_zamestnance)
+			if(z.ID == id_zamestnance)
 			{
 				Menu.StandartHeader(String.format("Odebrání zaměstance ID%d", id_zamestnance));
 				System.out.print(
@@ -192,24 +172,21 @@ public class Handler
 				System.out.print(
 						"\t\t\t\t |  Vaše volba: ");
 				String volba = sc.next();
-				
-				// pokud uživatel zvolí "Ano"
+
 				if(volba.toLowerCase().startsWith("a"))
 				{
-					databaze.remove(current);
-					
-					// odebere spolupráce u všech ostatních zaměstanců (odebíraný zaměstnanec už není součástí databáze)
-					// težce neefektivní
+					databaze.remove(z);
+
 					for(Zamestnanec i : databaze)
 					{
-						if(i.spoluprace.containsKey(current.ID))
+						if(i.spoluprace.containsKey(z.ID))
 							{
-								i.spoluprace.remove(current.ID);
+								i.spoluprace.remove(z.ID);
 								odebranych_vazeb++;
 							}
 					}
 					
-					Menu.GeneralError(String.format("Zaměstanec ID%d úspěšně odebrán.", current.ID), "Odebrání zaměstance proběhlo v pořádku.");
+					Menu.GeneralError(String.format("Zaměstanec ID%d úspěšně odebrán.", z.ID), "Odebrání zaměstance proběhlo v pořádku.");
 					System.out.println(odebranych_vazeb);
 					return true;
 				}
@@ -217,6 +194,7 @@ public class Handler
 				return true;
 			}
 		}
+		
 		Menu.GeneralError(String.format("Zaměstnanec ID%d nenalezen.", id_zamestnance), "Program nemohl v databázi najít zaměstnance s požadovaným ID."
 				+ "Prosím, opakujte akci s jiným ID.");
 		return true;
@@ -240,13 +218,14 @@ public class Handler
 			return false;
 		}
 		
-		for(Zamestnanec i : databaze)
+		for(Zamestnanec z : databaze)
 		{
-			if(i.ID == id_zamestnance) {
-				if(i.spoluprace.containsKey(id_kolegy))
+			if(z.ID == id_zamestnance) 
+			{
+				if(z.spoluprace.containsKey(id_kolegy))
 				{
 					spoluprace_nalezena = true;
-					i.spoluprace.remove(id_kolegy);
+					z.spoluprace.remove(id_kolegy);
 					odebranych_spolupraci++;
 				}
 				else
@@ -257,12 +236,12 @@ public class Handler
 				}
 				
 			}
-			if(i.ID == id_kolegy)
+			if(z.ID == id_kolegy)
 			{
-				if(i.spoluprace.containsKey(id_zamestnance))
+				if(z.spoluprace.containsKey(id_zamestnance))
 				{
 					spoluprace_nalezena = true;
-					i.spoluprace.remove(id_zamestnance);
+					z.spoluprace.remove(id_zamestnance);
 					odebranych_spolupraci++;
 				}
 				else
@@ -283,7 +262,6 @@ public class Handler
 		
 		Menu.GeneralError("ID zaměstnance nenalezeno", "V programu nastala chyba, v databázi nebylo"
 				+ " možné najít buď ID zaměstnance nebo kolegy. Prosím, opakujte akci.");
-		// vykoná se pokud ID zaměstnance neexistuje
 		return false;
 	}
 	
@@ -309,9 +287,9 @@ public class Handler
 				}
 				Menu.VyhledatZamestnance(z.ID, z.Jmeno, z.Prijmeni, z.RokNarozeni, skupina, z.spoluprace);
 				return true;
-			}
-			
+			}	
 		}
+		
 		Menu.GeneralError("Chybné ID", String.format("Nebyl nalezen zaměstnanec s hledaným ID %d.", id_zamestnance));
 		return false;
 	}
@@ -323,29 +301,26 @@ public class Handler
 				 		 "\t\t\t\t |               chcete využít.                |\n"+
 				 		 "\t\t\t\t |                                             |\n"+
 				 		 "\t\t\t\t |  ID zaměstnance: ");
-		int id=sc.nextInt();
-		for(Zamestnanec i : databaze)
+		int id = sc.nextInt();
+		for(Zamestnanec z : databaze)
 		{
-			if(id == i.ID)
+			if(id == z.ID)
 			{
-				if(i instanceof BezpecnostniSpecialista) 
+				if(z instanceof BezpecnostniSpecialista) 
 				{
-					i.Dovednost();
+					z.Dovednost();
 				}
 				else 
 				{
-					i.Dovednost(databaze);
+					z.Dovednost(databaze);
 				}
-				
 				return true;
 			}
 		}
 		
 		Menu.GeneralError("Chyba ID", "Vámi zadané ID nebylo v databázi nalezeno. Prosím, opakujte akci s jiným ID.");
 		return false;		
-	}
-	
-	
+	}	
 	// ---------------------STATISTIKY---------------------------------------
 	
 	public boolean vypisZamestnancu()
@@ -365,9 +340,9 @@ public class Handler
 	{
 		int dobra = 0, prum = 0, spatna = 0;
 		
-		for (Zamestnanec current : databaze)
+		for (Zamestnanec z: databaze)
 		{
-			for(Integer i : current.spoluprace.values())
+			for(Integer i : z.spoluprace.values())
 			{
 				switch (i)
 				{
@@ -407,32 +382,39 @@ public class Handler
 		return true;
 	}
 	
-	public boolean maxVazbySpoluprace()
+	public boolean maxVazebSpoluprace()
 	{
 		int maxVazeb = 0;
 		int max_ID = 0;
 		
-		for(Zamestnanec i : databaze)
+		for(Zamestnanec z : databaze)
 		{
-			if(i.spoluprace.values().size() > maxVazeb)
+			if(z.spoluprace.values().size() > maxVazeb)
 			{
-				maxVazeb = i.spoluprace.values().size();
-				max_ID = i.ID;
+				maxVazeb = z.spoluprace.values().size();
+				max_ID = z.ID;
 			}
 		}
 		
 		if(maxVazeb == 0)
 		{
-			try {
+			try 
+			{
 				Menu.GeneralError("Nenalezeny žádné vazby", "Program nemohl vyhodnotit nejvyšší počet vazeb, protože žádné vazby nenašel. Prosím, přidejte nějaké vazby a opakujte akci.");
-			} catch (InterruptedException e) {
+			} 
+			catch (InterruptedException e) 
+			{
 			}
 			return false;
 		}
-		else {
-			try {
+		else 
+		{
+			try 
+			{
 				Menu.NejviceSpolupraci(max_ID, maxVazeb);
-			} catch (InterruptedException e) {
+			} 
+			catch (InterruptedException e) 
+			{
 				return false;
 			}
 			return true;
@@ -441,30 +423,31 @@ public class Handler
 	
 	public boolean pocetZamestnancuVeSkupinach()
 	{
-		int datovych = 0, bezpec = 0;
+		int datovych = 0, bezpecnostnich = 0;
 		
-		for(Zamestnanec i : databaze)
+		for(Zamestnanec z : databaze)
 		{
-			if(i instanceof DatovyAnalytik)
+			if(z instanceof DatovyAnalytik)
 			{
 				datovych++;
 			}
-			else {
-				bezpec++;
+			else 
+			{
+				bezpecnostnich++;
 			}
 		}
 		
-		try {
-			Menu.PocetZamestnancuVeSkupinach(datovych, bezpec);
-		} catch (InterruptedException e) {
+		try 
+		{
+			Menu.PocetZamestnancuVeSkupinach(datovych, bezpecnostnich);
+		} 
+		catch (InterruptedException e) 
+		{
 			return false;
 		}
 		
 		return true;
 	}
-	
-	
-	
 	// ---------------------SOUBORY---------------------------------------
 	
 	public boolean zapisDoSouboru(String jmenoSouboru) throws InterruptedException
@@ -549,16 +532,14 @@ public class Handler
 					for(int i = 5; i < atributy.length; i++)
 					{
 						int vazba = Integer.parseInt(atributy[i]);
-						int id_kolegy = Math.floorDiv(vazba, 10); // tohle ten číselný formát zápisu spolupráce (např. 9232) vydělí 10 a vše za desetinou čárkou 
-																  //    zahodí => 9232 / 10 = 923.2 => 923
+						int id_kolegy = Math.floorDiv(vazba, 10);
 						int uroven = (vazba - Math.floorDiv(vazba, 10)*10);
-						
 						c.spoluprace.put(id_kolegy, uroven);
 					}
 				}
 			}
 			Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
-			TimeUnit.SECONDS.sleep(5);
+			TimeUnit.SECONDS.sleep(3);
 		} 
 		catch (FileNotFoundException e) 
 		{
@@ -572,8 +553,6 @@ public class Handler
 		}
 		return true;
 	}
-	
-	
 	//--------------SQL-----------------
 	
 	private Connection pripojeni; 
@@ -672,6 +651,7 @@ public class Handler
 			String prijmeni = z.Prijmeni;
 			int rokNarozeni = z.RokNarozeni;
 			int skupina = 0;
+			
 			if(z instanceof DatovyAnalytik) 
 			{
 				skupina = 1;
@@ -680,6 +660,7 @@ public class Handler
 			{
 				skupina = 2;	
 			}
+			
 			String sql = "INSERT OR REPLACE INTO Zamestnanci(id, jmeno, prijmeni, rokNarozeni, skupina) VALUES(?,?,?,?,?)";
 	        try {
 	            PreparedStatement pstmt = pripojeni.prepareStatement(sql);
@@ -690,15 +671,16 @@ public class Handler
 	            pstmt.setInt(5, skupina);
 	            pstmt.executeUpdate();
 	        } 
-	         catch (SQLException e) {
+	         catch (SQLException e) 
+	        {
 	        	 
 	             System.out.println(e.getMessage());
 	        }  
 		}
 		insertSpoluprace();
-		return true;
-        
+		return true;        
     }
+	
 	//chybi kontrola id_kolegy
 	public void insertSpoluprace() 
 	{
@@ -716,7 +698,8 @@ public class Handler
 					pstmt.setInt(2, k);
 					pstmt.setInt(3, v);
 		            pstmt.executeUpdate();
-				} catch (SQLException e) {
+				} catch (SQLException e) 
+				{
 					e.printStackTrace();
 				}
 			});
@@ -732,6 +715,8 @@ public class Handler
              Statement stmt = pripojeni.createStatement();
              ResultSet rs = stmt.executeQuery(sql);
              int pocet = 0;
+             int spoluprace = 0;
+             
              while (rs.next()) 
 			{
 				int id = rs.getInt("id");
@@ -754,13 +739,13 @@ public class Handler
 						databaze.add(s);
 						pocet += 1;
 					}
-
 				}
-				selectSpoluprace(id);
+				spoluprace += selectSpoluprace(id);
 			}
             
-            Menu.StandartHeader(String.format("Bylo načteno %d nových záznamů.", pocet));
- 			TimeUnit.SECONDS.sleep(5);
+            Menu.StandartHeader(String.format("Bylo načteno %d zaměstnanců.", pocet));
+            Menu.StandartHeader(String.format("Bylo načteno %d spoluprací.", spoluprace));
+ 			TimeUnit.SECONDS.sleep(3);
         } 
         catch (SQLException e) 
         {
@@ -768,32 +753,29 @@ public class Handler
         }
 	}
 	
-	public void selectSpoluprace(int id) //spoluprace se nacitaji spravne
+	public int selectSpoluprace(int id)
 	{
 		String sql = String.format("SELECT id_zamestnance, id_kolegy, uroven_spoluprace FROM Spoluprace WHERE id_zamestnance=%d",id);
 		
 		Zamestnanec c = databaze.get(databaze.size()-1);
+		int pocet= 0;
 		try 
 		{
 			Statement stmt = pripojeni.createStatement();
 	        ResultSet rs = stmt.executeQuery(sql);
-	        // int pocet= 0;
+	        
 			while (rs.next()) 
 			{
 				int id_kolegy = rs.getInt("id_kolegy");
 				int uroven = rs.getInt("uroven_spoluprace");
 				c.spoluprace.put(id_kolegy, uroven);
-				// System.out.println("spoluprace" + id_kolegy + uroven);
-				// pocet++;
+				pocet++;
 			}
-			// System.out.println("spoluprace" + pocet);
-			// System.out.println(c.spoluprace);
 		}
-		
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
+		return pocet;
 	}
-
 }
