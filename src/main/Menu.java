@@ -4,31 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-
-//		Struktura systému nabídek Menu
-//		
-//		-> MainMenu
-//			-> Zaměstnanci a operace s nimi
-//				-> Přidání zaměstnance
-//				-> Přidání spolupráce
-//				-> Odebrání zaměstnance
-//				-> Odebrání spolupráce
-//				-> Vyhledávání zaměstnance podle ID
-//				-> Dovednosti zaměstnance
-//			-> Statistiky
-//				-> Abecední výpis zaměstnanců ve skupinách
-//				-> Kvalita spolupráce
-//				-> Zaměstnanec s nejvíce vazbami
-//			-> Souborové operace
-//				-> Uložení zaměstnance do souboru
-//				-> Načtení zaměstnance ze souboru
-//			-> Konec
-//				-> Opravdu se chystáte odejít?
-
-
-
-public class Menu {
-	
+public class Menu {	
 
 	public static void MainMenu() 
 	{
@@ -207,13 +183,14 @@ public class Menu {
 	{
 		int padding = (43 - header.length())/2;
 		String pad = "";
-		for(int i = 0; i < padding; i++) {
+		for(int i = 0; i < padding; i++) 
+		{
 			pad += " ";
 		}
 		
 		pad += header;
-		//\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-		System.out.printf("\n\n\n\n\n\n"+
+		//
+		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 	            "\t\t\t\t |                                             |\n"+
 	            "\t\t\t\t-+---------------------------------------------+-\n"+
 	            "\t\t\t\t | %-43s |\n"+

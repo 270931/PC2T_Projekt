@@ -55,11 +55,17 @@ public class Spravce
 		do
 		{
 			System.out.printf("\t\t\t\t |  Rok narození nového zaměstnance: ");
+			if (!sc.hasNextInt()) 
+			{ 
+				sc.next();
+				Menu.GeneralError("Neplatný vstup", "Zadejte prosím rok narození.");
+				return false;
+			}
 			rokNarozeni = sc.nextInt();
 			System.out.print("\t\t\t\t |                                             |\n");
 			if((1940 > rokNarozeni) || (rokNarozeni > 2010))
 			{
-				System.out.printf("\t\t\t\t |  Takovýto rok narození je nemožný. \n");
+				System.out.printf("\t\t\t\t |  Tento rok narození není možný. \n");
 				System.out.print("\t\t\t\t |                                             |\n");
 			}
 		}
@@ -75,7 +81,6 @@ public class Spravce
 		}
 		else 
 		{
-			//skupina = 99; ????
 			sc.next();
 		}
 		//
@@ -97,7 +102,7 @@ public class Spravce
 		}
 		else 
 		{
-			Menu.GeneralError("Chyba - Nesprávný výběr skupiny", "Váš výběr" + skupina + " je neplatným výběrem. Prosím, vyberte pouze z nabízených možností.");
+			Menu.GeneralError("Chyba - Nesprávný výběr skupiny", "Váš výběr neodpovídá volbě skupiny. Prosím, vyberte pouze z nabízených možností.");
 			return false;
 		}	
 	}
@@ -106,14 +111,35 @@ public class Spravce
 	{
 		Menu.StandartHeader("Přidávání spolupráce");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím celé číslo pro ID zaměstnance.");
+			return false;
+		}
 		int id_zamestnance = sc.nextInt();
 		System.out.print("\t\t\t\t |                                             |\n");
+		
 		System.out.print("\t\t\t\t |  Zadejte ID kolegy: ");
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím celé číslo pro ID kolegy.");
+			return false;
+		}
 		int id_kolegy = sc.nextInt();
 		System.out.print("\t\t\t\t |                                             |\n");
+		
 		System.out.print("\t\t\t\t |  1 - špatná; 2 - průměrná; 3 - dobrá        |\n");
 		System.out.print("\t\t\t\t |                                             |\n");
 		System.out.print("\t\t\t\t |  Zadejte úroveň spolupráce (1-3): ");
+		
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím číslo 1-3.");
+			return false;
+		}
 		int urovenSpoluprace = sc.nextInt();
 		System.out.print("\t\t\t\t |                                             |\n");
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
@@ -163,6 +189,12 @@ public class Spravce
 		Menu.StandartHeader("Odebrání zaměstnance");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
 		
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím celé číslo pro ID zaměstnance.");
+			return false;
+		}
 		int id_zamestnance = sc.nextInt();
 		int odebranych_vazeb = 0;
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
@@ -183,7 +215,7 @@ public class Spravce
 				System.out.print(
 						"\t\t\t\t |  Vaše volba: ");
 				String volba = sc.next();
-				//
+
 				System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
 							     "\t\t\t\t |                                             |\n");
 				if(volba.toLowerCase().startsWith("a"))
@@ -201,7 +233,6 @@ public class Spravce
 					
 					Menu.GeneralError("Odebrání zaměstance", String.format("Zaměstanec s ID %d byl úspěšně odebrán.", z.ID));
 					Menu.GeneralError("Odebrání spoluprací zaměstnance", String.format("%d spoluprací bylo odebráno.", odebranych_vazeb));
-					//System.out.println(odebranych_vazeb);
 					return true;
 				}
 				Menu.GeneralError("Akce byla zrušena.", "Vstup z klávesnice nebyl interpretován jako souhlas s odebráním zaměstnance.");
@@ -218,11 +249,24 @@ public class Spravce
 	{
 		Menu.StandartHeader("Odebrání spolupráce mezi zaměstnanci");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím celé číslo pro ID zaměstnance.");
+			return false;
+		}
 		int id_zamestnance = sc.nextInt();
 		System.out.print("\t\t\t\t |                                             |\n");
+		
 		System.out.print("\t\t\t\t |  Zadejte ID kolegy: ");
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím celé číslo pro ID kolegy.");
+			return false;
+		}
 		int id_kolegy = sc.nextInt();
-		//
+		
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
 		 	     		 "\t\t\t\t |                                             |\n");
 		boolean spoluprace_nalezena = false;
@@ -286,9 +330,15 @@ public class Spravce
 	{
 		Menu.StandartHeader("Vyhledání zaměstnance");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
+		
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím celé číslo pro ID zaměstnance.");
+			return false;
+		}
 		int id_zamestnance = sc.nextInt();
-		//System.out.print("\t\t\t\t |  \n");
-		//
+
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
 		 	     		 "\t\t\t\t |                                             |\n");
 		int skupina = 0;
@@ -320,6 +370,13 @@ public class Spravce
 				 		 "\t\t\t\t |               chcete využít.                |\n"+
 				 		 "\t\t\t\t |                                             |\n"+
 				 		 "\t\t\t\t |  ID zaměstnance: ");
+		if (!sc.hasNextInt()) 
+		{ 
+			sc.next();
+			Menu.GeneralError("Neplatný vstup", "Zadejte prosím celé číslo pro ID zaměstnance.");
+			return false;
+		}
+
 		int id = sc.nextInt();
 		//
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
@@ -343,7 +400,7 @@ public class Spravce
 		Menu.GeneralError("Chybné ID", "Zaměstnanec s Vámi zadaným ID nebyl nalezen v databázi. Prosím, opakujte akci s jiným ID.");
 		return false;		
 	}	
-	// ---------------------STATISTIKY---------------------------------------
+	
 	
 	public boolean vypisZamestnancu()
 	{
@@ -468,7 +525,7 @@ public class Spravce
 		
 		return true;
 	}
-	// ---------------------SOUBORY---------------------------------------
+
 	
 	public boolean zapisDoSouboru(String jmenoSouboru) throws InterruptedException
 	{
@@ -553,7 +610,7 @@ public class Spravce
 					{
 						int vazba = Integer.parseInt(atributy[i]);
 						int id_kolegy = Math.floorDiv(vazba, 10);
-						int uroven = (vazba - Math.floorDiv(vazba, 10)*10);
+						int uroven = (vazba - Math.floorDiv(vazba, 10) * 10);
 						c.spoluprace.put(id_kolegy, uroven);
 					}
 				}
@@ -573,7 +630,7 @@ public class Spravce
 		}
 		return true;
 	}
-	//--------------SQL-----------------
+
 	
 	private Connection pripojeni; 
 	

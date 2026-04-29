@@ -4,7 +4,8 @@ import java.util.*;
 
 public class ProjektStart {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException 
+	{
 
 		boolean exit = false;
 		Scanner sc = new Scanner(System.in);
