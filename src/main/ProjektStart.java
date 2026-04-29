@@ -8,27 +8,22 @@ public class ProjektStart {
 
 		boolean exit = false;
 		Scanner sc = new Scanner(System.in);
-		Spravce hr = new Spravce();
+		Spravce sp = new Spravce();
 		
-		if (!hr.connect("zamestnanci.db"))
+		if (!sp.connect("zamestnanci.db"))
 	    {
 	    	System.out.println("K databázi se nebylo možné připojit");
 			exit = true;
 	    }
 		
-		hr.createTableZamestnanci();
-		hr.createTableSpoluprace();
-		hr.selectAll();
-		// načtení z databáze
+		sp.createTableZamestnanci();
+		sp.createTableSpoluprace();
+		sp.selectAll();
 		 
 		while(!exit) {
-			
 			int vyber = 0;
-			
-			//Vypiš hlavní menu
 			Menu.MainMenu();
 			
-			//výběr možnosti
 			if(sc.hasNextInt()) 
 			{
 				vyber = sc.nextInt();
@@ -37,17 +32,14 @@ public class ProjektStart {
 			{
 				vyber = 99;
 				sc.next();
-			}
-			
-			
-			// rozhodování pro vstup do submenu
+			}			
+			System.out.print("\t\t\t\t-+---------------------------------------------+-\n" +
+					 	     "\t\t\t\t |                                             |\n");
 			switch(vyber) 
 			{
-				//Submenu: Zaměstnanci
 				case 1:
 					
-					Menu.MenuZamestnanci();
-					
+					Menu.MenuZamestnanci();					
 					
 					if(sc.hasNextInt()) 
 					{
@@ -58,46 +50,47 @@ public class ProjektStart {
 						vyber = 99;
 						sc.next();
 					}
-					
+					System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+									 "\t\t\t\t |                                             |\n");
 					switch(vyber) 
 					{
 						case 1:
-							if(hr.pridatZamenstnance()) 
+							if(sp.pridatZamenstnance()) 
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 2:
-							if(hr.pridatSpolupraci())
+							if(sp.pridatSpolupraci())
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 3:
-							if(hr.odebratZamestnance())
+							if(sp.odebratZamestnance())
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 4:
-							if(hr.odebratSpolupraci())
+							if(sp.odebratSpolupraci())
 							{
 								System.out.print("Success");
 							}
 							break;
 							
 						case 5:
-							if(hr.vyhledatZamestnance())
+							if(sp.vyhledatZamestnance())
 							{
 								System.out.print("Success");
 							}
 							break;
 							
 						case 6:
-							if(hr.dovednostiZamestnance())
+							if(sp.dovednostiZamestnance())
 							{
 								System.out.print("Success");
 							}
@@ -109,16 +102,13 @@ public class ProjektStart {
 						default:
 							Menu.GeneralError("Chyba volby v Menu Zaměstnanci", "Dopustili jste se chyby při zadávání vaší volby pro"
 									+ " submenu. Prosím, zkuste to znovu.");
-							break;
-							
+							break;							
 					}
 					break;
 
-				//Submenu: Statistiky
 				case 2:
 					Menu.MenuStatistiky();
-					
-					
+										
 					if(sc.hasNextInt()) 
 					{
 						vyber = sc.nextInt();
@@ -129,52 +119,51 @@ public class ProjektStart {
 						sc.next();
 					}
 					
+					System.out.print("\t\t\t\t-+---------------------------------------------+-\n" +
+									 "\t\t\t\t |                                             |\n");
 					switch(vyber) 
 					{
 						case 1:
-							if(hr.vypisZamestnancu()) 
+							if(sp.vypisZamestnancu()) 
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 2:
-							if(hr.kvalitaSpoluprace())
+							if(sp.kvalitaSpoluprace())
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 3:
-							if(hr.maxVazebSpoluprace())
+							if(sp.maxVazebSpoluprace())
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 4:
-							if(hr.pocetZamestnancuVeSkupinach())
+							if(sp.pocetZamestnancuVeSkupinach())
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 5:
-							break;
-							
+							break;							
 						
 						default:
 							Menu.GeneralError("Chyba volby v Menu Statistiky", "Dopustili jste se chyby při zadávání vaší volby pro"
 									+ " submenu. Prosím, zkuste to znovu.");
-							break;
-							
+							break;		
 					}
 					break;
 				
 				case 3:
 					Menu.MenuSoubory();
-					
-					
+										
 					if(sc.hasNextInt()) 
 					{
 						vyber = sc.nextInt();
@@ -185,37 +174,39 @@ public class ProjektStart {
 						sc.next();
 					}
 					
+					System.out.print("\t\t\t\t-+---------------------------------------------+-\n" +
+									 "\t\t\t\t |                                             |\n");
 					switch(vyber) 
 					{
 						case 1:
-							if(hr.zapisDoSouboru("test.txt")) 
+							if(sp.zapisDoSouboru("zamestnanci.txt")) 
 							{
 								System.out.print("Success");
 							}
 							break;
 						
 						case 2:
-							if(hr.nacteniZeSouboru("test.txt"))
+							if(sp.nacteniZeSouboru("zamestnanci.txt"))
 							{
 								System.out.print("Success");
 							}
 							break;
 						
-						case 4:
+						case 3:
 							break;
-							
-						
+
 						default:
-							Menu.GeneralError("Chyba volby v Menu Souborových operací", "Dopustili jste se chyby při zadávání vaší volby pro"
+							Menu.GeneralError("Chyba volby v Menu Souborové operace", "Dopustili jste se chyby při zadávání vaší volby pro"
 									+ " submenu. Prosím, zkuste to znovu.");
-							break;
-							
+							break;	
 					}
 					break;
 					
 				case 4:
 					Menu.Konec();
 					String e = sc.next();
+					System.out.print("\t\t\t\t-+---------------------------------------------+-\n" +
+							 		 "\t\t\t\t |                                             |\n");
 					if(e.toLowerCase().startsWith("a"))
 					{
 						exit = true;
@@ -224,19 +215,13 @@ public class ProjektStart {
 					break;
 				
 				default:
-					//moron
 					Menu.GeneralError("Chyba volby v MainMenu", "Dopustili jste se chyby při zadávání vaší volby pro"
-																+ " submenu. Prosím, zkuste to znovu.");
-					break;			
-				
+										+ " submenu. Prosím, zkuste to znovu.");
+					break;							
 			}
-			
-
 		}
-		
-		// tady se bude ukládat do databáze
-		hr.insert();
-		hr.disconnect();
+		sp.insert();
+		sp.disconnect();
 		
 		System.out.print("Ukončeno.");
 	}

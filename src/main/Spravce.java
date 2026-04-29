@@ -46,28 +46,29 @@ public class Spravce
 		Menu.StandartHeader("Přidávání nového zaměstnance (ID " + ID  + ")");		
 		System.out.print("\t\t\t\t |  Jméno nového zaměstnance: ");
 		String jmeno=sc.next();
-		System.out.print("\t\t\t\t |  \n");
+		System.out.print("\t\t\t\t |                                             |\n");
 		System.out.printf("\t\t\t\t |  Přijmení nového zaměstnance: ");
 		String prijmeni=sc.next();
-		System.out.print("\t\t\t\t |  \n");
+		System.out.print("\t\t\t\t |                                             |\n");
 		
 		int rokNarozeni = 0;
 		do
 		{
 			System.out.printf("\t\t\t\t |  Rok narození nového zaměstnance: ");
 			rokNarozeni = sc.nextInt();
-			System.out.print("\t\t\t\t |  \n");
+			System.out.print("\t\t\t\t |                                             |\n");
 			if((1940 > rokNarozeni) || (rokNarozeni > 2010))
 			{
 				System.out.printf("\t\t\t\t |  Takovýto rok narození je nemožný. \n");
-				System.out.print("\t\t\t\t |  \n");
+				System.out.print("\t\t\t\t |                                             |\n");
 			}
 		}
 		while((1940 > rokNarozeni) || (rokNarozeni > 2010));
-
+		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+						 "\t\t\t\t |                                             |\n");
 		int skupina = 0;
 		Menu.VyberSkupiny();
-		
+
 		if(sc.hasNextInt()) 
 		{
 			 skupina= sc.nextInt();
@@ -77,7 +78,9 @@ public class Spravce
 			//skupina = 99; ????
 			sc.next();
 		}
-		
+		//
+		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+		 	     		 "\t\t\t\t |                                             |\n");
 		if(skupina == 1) 
 		{
 			DatovyAnalytik a = new DatovyAnalytik(ID, jmeno, prijmeni, rokNarozeni);
@@ -104,12 +107,17 @@ public class Spravce
 		Menu.StandartHeader("Přidávání spolupráce");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
 		int id_zamestnance = sc.nextInt();
-		System.out.print("\t\t\t\t |\n\t\t\t\t |  Zadejte ID kolegy: ");
+		System.out.print("\t\t\t\t |                                             |\n");
+		System.out.print("\t\t\t\t |  Zadejte ID kolegy: ");
 		int id_kolegy = sc.nextInt();
-		System.out.print("\t\t\t\t |\n\t\t\t\t |  1 - špatná; 2 - průměrná; 3 - dobrá ");
-		System.out.print("\n\t\t\t\t |  Zadejte úroveň spolupráce (1-3): ");
+		System.out.print("\t\t\t\t |                                             |\n");
+		System.out.print("\t\t\t\t |  1 - špatná; 2 - průměrná; 3 - dobrá        |\n");
+		System.out.print("\t\t\t\t |                                             |\n");
+		System.out.print("\t\t\t\t |  Zadejte úroveň spolupráce (1-3): ");
 		int urovenSpoluprace = sc.nextInt();
-
+		System.out.print("\t\t\t\t |                                             |\n");
+		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+		 		 		 "\t\t\t\t |                                             |\n");
 		if(id_zamestnance == id_kolegy)
 		{
 			Menu.GeneralError("Nelze přidat spolupráci", "Není možné přidat spolupráci sobě sama. Prosím zvolte ID jiného člověka a opakujte akci.");
@@ -154,14 +162,17 @@ public class Spravce
 	{
 		Menu.StandartHeader("Odebrání zaměstnance");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
+		
 		int id_zamestnance = sc.nextInt();
 		int odebranych_vazeb = 0;
+		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+		 	     "\t\t\t\t |                                             |\n");
 		
 		for(Zamestnanec z : databaze)
 		{
 			if(z.ID == id_zamestnance)
 			{
-				Menu.StandartHeader(String.format("Odebrání zaměstance ID%d", id_zamestnance));
+				Menu.StandartHeader(String.format("Odebrání zaměstance s ID %d", id_zamestnance));
 				System.out.print(
 						"\t\t\t\t |    Jste si zcela jistí odebráním tohoto     |\n"+
 						"\t\t\t\t |    zaměstnance? Tato akce je nevratná!      |\n"+
@@ -172,7 +183,9 @@ public class Spravce
 				System.out.print(
 						"\t\t\t\t |  Vaše volba: ");
 				String volba = sc.next();
-
+				//
+				System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+							     "\t\t\t\t |                                             |\n");
 				if(volba.toLowerCase().startsWith("a"))
 				{
 					databaze.remove(z);
@@ -186,8 +199,9 @@ public class Spravce
 							}
 					}
 					
-					Menu.GeneralError(String.format("Zaměstanec ID%d úspěšně odebrán.", z.ID), "Odebrání zaměstance proběhlo v pořádku.");
-					System.out.println(odebranych_vazeb);
+					Menu.GeneralError("Odebrání zaměstance", String.format("Zaměstanec s ID %d byl úspěšně odebrán.", z.ID));
+					Menu.GeneralError("Odebrání spoluprací zaměstnance", String.format("%d spoluprací bylo odebráno.", odebranych_vazeb));
+					//System.out.println(odebranych_vazeb);
 					return true;
 				}
 				Menu.GeneralError("Akce byla zrušena.", "Vstup z klávesnice nebyl interpretován jako souhlas s odebráním zaměstnance.");
@@ -195,8 +209,8 @@ public class Spravce
 			}
 		}
 		
-		Menu.GeneralError(String.format("Zaměstnanec ID%d nenalezen.", id_zamestnance), "Program nemohl v databázi najít zaměstnance s požadovaným ID."
-				+ "Prosím, opakujte akci s jiným ID.");
+		Menu.GeneralError("Neexistující zaměstnanec", String.format("Zaměstnanec s požadovaným ID %d nebyl nalezen v databázi."
+				+ "Prosím, opakujte akci s jiným ID.", id_zamestnance));
 		return true;
 	}
 	
@@ -205,15 +219,18 @@ public class Spravce
 		Menu.StandartHeader("Odebrání spolupráce mezi zaměstnanci");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
 		int id_zamestnance = sc.nextInt();
+		System.out.print("\t\t\t\t |                                             |\n");
 		System.out.print("\t\t\t\t |  Zadejte ID kolegy: ");
 		int id_kolegy = sc.nextInt();
-		
+		//
+		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+		 	     		 "\t\t\t\t |                                             |\n");
 		boolean spoluprace_nalezena = false;
 		int odebranych_spolupraci = 0;
 
 		if(id_zamestnance == id_kolegy)
 		{
-			Menu.GeneralError("Duplikátní ID", "Nelze odebrat (a ani přidat) spolupráci "
+			Menu.GeneralError("Duplikátní ID", "Nelze odebrat spolupráci "
 					+ "mezi jedním a stejným zaměstnancem. Prosím, zvolte rozdílná ID a akci opakujte");
 			return false;
 		}
@@ -230,8 +247,8 @@ public class Spravce
 				}
 				else
 				{
-					Menu.GeneralError("Spolupráce neexistuje", String.format("Spolupráce mezi"
-							+ " ID%d a ID%d neexistuje. Prosím, zvolte dvojici zaměstnanců která má spolupráci", id_zamestnance, id_kolegy));
+					Menu.GeneralError("Neexistující spolupráce", String.format("Spolupráce mezi zaměstnanci "
+							+ "s ID %d a ID %d neexistuje. Prosím, zvolte dvojici zaměstnanců, kteří spolu spolupracují.", id_zamestnance, id_kolegy));
 					return false;
 				}
 				
@@ -246,8 +263,8 @@ public class Spravce
 				}
 				else
 				{
-					Menu.GeneralError("Spolupráce neexistuje", String.format("Spolupráce mezi"
-							+ " ID%d a ID%d neexistuje. Prosím, zvolte dvojici zaměstnanců která má spolupráci", id_zamestnance, id_kolegy));
+					Menu.GeneralError("Neexistující spolupráce", String.format("Spolupráce mezi zaměstnanci "
+							+ "s ID %d a ID %d neexistuje. Prosím, zvolte dvojici zaměstnanců, kteří spolu spolupracují", id_zamestnance, id_kolegy));
 					return false;
 				}
 			}
@@ -255,13 +272,13 @@ public class Spravce
 		
 		if(spoluprace_nalezena)
 		{
-			Menu.GeneralError("Spolupráce úspěšně odebrána.", String.format("Spolupráce mezi zaměstnanci "
-					+ "ID%d a ID%d byla úspěšně odebrána. (%d)", id_zamestnance, id_kolegy, odebranych_spolupraci/2));
+			Menu.GeneralError("Úspěšné odebrání spolupráce", String.format("Spolupráce mezi zaměstnanci "
+					+ "s ID %d a ID %d byla úspěšně odebrána. (%d)", id_zamestnance, id_kolegy, odebranych_spolupraci/2));
 			return true;
 		}
 		
-		Menu.GeneralError("ID zaměstnance nenalezeno", "V programu nastala chyba, v databázi nebylo"
-				+ " možné najít buď ID zaměstnance nebo kolegy. Prosím, opakujte akci.");
+		Menu.GeneralError("Neexistující ID zaměstnance", "V databázi nebylo nalezeno ID zaměstnance nebo jeho kolegy."
+				+ " Prosím, opakujte akci.");
 		return false;
 	}
 	
@@ -270,8 +287,10 @@ public class Spravce
 		Menu.StandartHeader("Vyhledání zaměstnance");
 		System.out.print("\t\t\t\t |  Zadejte ID zaměstnance: ");
 		int id_zamestnance = sc.nextInt();
-		System.out.print("\t\t\t\t |  \n");
-		
+		//System.out.print("\t\t\t\t |  \n");
+		//
+		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+		 	     		 "\t\t\t\t |                                             |\n");
 		int skupina = 0;
 		for(Zamestnanec z : databaze) 
 		{
@@ -297,11 +316,14 @@ public class Spravce
 	public boolean dovednostiZamestnance() throws InterruptedException 
 	{
 		Menu.StandartHeader("Dovednosti zaměstance");
-		System.out.print("\t\t\t\t |    Zadejte ID zaměstance jehož dovednost    |\n"+
+		System.out.print("\t\t\t\t |    Zadejte ID zaměstance, jehož dovednost   |\n"+
 				 		 "\t\t\t\t |               chcete využít.                |\n"+
 				 		 "\t\t\t\t |                                             |\n"+
 				 		 "\t\t\t\t |  ID zaměstnance: ");
 		int id = sc.nextInt();
+		//
+		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
+		 	     		 "\t\t\t\t |                                             |\n");
 		for(Zamestnanec z : databaze)
 		{
 			if(id == z.ID)
@@ -318,7 +340,7 @@ public class Spravce
 			}
 		}
 		
-		Menu.GeneralError("Chyba ID", "Vámi zadané ID nebylo v databázi nalezeno. Prosím, opakujte akci s jiným ID.");
+		Menu.GeneralError("Chybné ID", "Zaměstnanec s Vámi zadaným ID nebyl nalezen v databázi. Prosím, opakujte akci s jiným ID.");
 		return false;		
 	}	
 	// ---------------------STATISTIKY---------------------------------------
@@ -644,6 +666,8 @@ public class Spravce
 			Menu.GeneralError("Prázdná databáze", "Není možný zápis do sql, databáze je prázdná.");
 			return false;
 		}
+		int pocet = 0;
+        int spoluprace = 0;
 		for(Zamestnanec z : databaze) 
 		{
 			int id = z.ID;
@@ -655,10 +679,12 @@ public class Spravce
 			if(z instanceof DatovyAnalytik) 
 			{
 				skupina = 1;
+				pocet += 1;
 			}
-			else 
+			else if (z instanceof BezpecnostniSpecialista)
 			{
-				skupina = 2;	
+				skupina = 2;
+				pocet += 1;
 			}
 			
 			String sql = "INSERT OR REPLACE INTO Zamestnanci(id, jmeno, prijmeni, rokNarozeni, skupina) VALUES(?,?,?,?,?)";
@@ -677,18 +703,22 @@ public class Spravce
 	             System.out.println(e.getMessage());
 	        }  
 		}
-		insertSpoluprace();
+		spoluprace += insertSpoluprace();
+		Menu.StandartHeader(String.format("Bylo uloženo %d zaměstnanců.", pocet));
+        Menu.StandartHeader(String.format("Bylo uloženo %d spoluprací.", spoluprace));
+		TimeUnit.SECONDS.sleep(3);
 		return true;        
     }
 	
 	//chybi kontrola id_kolegy
-	public void insertSpoluprace() 
+	public int insertSpoluprace() 
 	{
+		int pocet = 0;
 		for(Zamestnanec z : databaze) 
 		{
 			int id_zamestnance = z.ID;
 			String sql = "INSERT OR REPLACE INTO Spoluprace(id_zamestnance, id_kolegy, uroven_spoluprace) VALUES(?,?,?)";
-
+			
 	        z.spoluprace.forEach((k,v) -> 
 			{
 				try 
@@ -698,12 +728,15 @@ public class Spravce
 					pstmt.setInt(2, k);
 					pstmt.setInt(3, v);
 		            pstmt.executeUpdate();
-				} catch (SQLException e) 
+				} 
+				catch (SQLException e) 
 				{
 					e.printStackTrace();
 				}
 			});
+	        pocet = z.spoluprace.size();
 		}
+		return pocet;
 	}
 	
 //nacteni zaznamu na zacatku programu
