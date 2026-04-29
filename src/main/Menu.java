@@ -32,8 +32,6 @@ public class Menu {
 
 	public static void MainMenu() 
 	{
-
-		// TO DO: clear console
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
@@ -59,9 +57,6 @@ public class Menu {
 	
 	public static void MenuZamestnanci() 
 	{
-
-		// TO DO: clear console
-		
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
@@ -93,8 +88,6 @@ public class Menu {
 	
 	public static void MenuStatistiky() 
 	{
-
-		// TO DO: clear console
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
@@ -122,8 +115,6 @@ public class Menu {
 	
 	public static void MenuSoubory() 
 	{
-
-		// TO DO: clear console
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
@@ -137,7 +128,7 @@ public class Menu {
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t | 2    Načtení zaměstnanců ze souboru         |\n"+
 				"\t\t\t\t |                                             |\n"+
-				"\t\t\t\t | 4    Konec                                  |\n"+
+				"\t\t\t\t | 3    Konec                                  |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n"+
@@ -147,8 +138,6 @@ public class Menu {
 	
 	public static void Konec() 
 	{
-
-		// TO DO: clear console
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
@@ -165,42 +154,33 @@ public class Menu {
 
 	public static void GeneralError(String errorHeader, String errorMessage) throws InterruptedException 
 	{
-	    
-	    // Standardizovaný nadpis
 	    Menu.StandartHeader(errorHeader);
-	    
-	    
 	    
 	    String[] slova = errorMessage.split(" ");
 	    String newLine = "";
 	    
-	    for (int i = 0; i < slova.length; i++) {
-	        // Přidání mezery pokud nový řádek není prázný
+	    for (int i = 0; i < slova.length; i++) 
+	    {
 	        String mezera = newLine.isEmpty() ? "" : " ";
 	        
-	        // Jestliže se další slovo vejde do 43 znaků, tak ho přidáme
 	        if ((newLine + mezera + slova[i]).length() <= 43) 
 	        {
 	            newLine += mezera + slova[i]; 
 	        }
 	        else
 	        {
-	            // pokud je řádek plný, print
 	        	int padding = (43 - newLine.length())/2;
 	    		String pad = "";
-	    		for(int j = 0; j < padding; j++) {
+	    		for(int j = 0; j < padding; j++) 
+	    		{
 	    			pad += " ";
-	    	}
-	    		
+	    		}
 	    		pad += newLine;
 	            System.out.printf("\t\t\t\t | %-43s |\n", pad);
-	            
-	            // Nový řádek začne se slovem co se v aktuálním cyklu nevešlo
 	            newLine = slova[i];
 	        }
 	    }
-	    
-	    // Pokud něco zbylo, vypíše se to zde
+
 	    if (!newLine.isEmpty()) 
 	    {
 	    	int padding = (43 - newLine.length())/2;
@@ -209,26 +189,22 @@ public class Menu {
 			{
 				pad += " ";
 			}
-			
 			pad += newLine;
 	        System.out.printf("\t\t\t\t | %-43s |\n", pad);
 	    }
-	    
-	    // Spodní okraj
+
 	    System.out.printf(
 	            "\t\t\t\t |                                             |\n"+
 	            "\t\t\t\t-+---------------------------------------------+-\n"+
 	            "\t\t\t\t |                                             |\n"+
 	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	    
-	    TimeUnit.SECONDS.sleep(5);
+	    TimeUnit.SECONDS.sleep(3);
 	}
 	
 
 	public static void StandartHeader(String header) 
 	{
-		
-		// Dostanu počet mezer které jsou potřeba přidat zleva i z prava
 		int padding = (43 - header.length())/2;
 		String pad = "";
 		for(int i = 0; i < padding; i++) {
@@ -236,20 +212,17 @@ public class Menu {
 		}
 		
 		pad += header;
-		
-		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+		//\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+		System.out.printf("\n\n\n\n\n\n"+
 	            "\t\t\t\t |                                             |\n"+
 	            "\t\t\t\t-+---------------------------------------------+-\n"+
 	            "\t\t\t\t | %-43s |\n"+
 	            "\t\t\t\t-+---------------------------------------------+-\n"+
 	            "\t\t\t\t |                                             |\n", pad);
 	}
-	
 
 	public static void NovyZamestnanec(int id, String jmeno, String prijmeni, int rokNarozeni, int skupina) throws InterruptedException 
 	{
-
-		// TO DO: clear console
 		String zamereni;
 		if(skupina == 1)
 		{
@@ -260,7 +233,7 @@ public class Menu {
 			zamereni = "Bezpečnostní specialista";
 		}
 		
-		Menu.StandartHeader("Nový zaměstnanec vytvořen.");
+		Menu.StandartHeader("Úspěšné přidání zaměstnance");
 		
 		System.out.printf(
 				"\t\t\t\t |           ID:   %-27d |\n"+
@@ -277,15 +250,13 @@ public class Menu {
 				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", id, jmeno, prijmeni, rokNarozeni, zamereni
 			);
 		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 
 	public static void NovaSpoluprace(int id_zamestnance, int id_kolegy, int uroven) throws InterruptedException 
 	{
 		String urovenString = "";
-		// TO DO: clear console
 		switch(uroven)
 		{
 		case 1:
@@ -298,7 +269,7 @@ public class Menu {
 			urovenString = "Dobrá";
 		}
 		
-		Menu.StandartHeader("Nová spolupráce vytvořena.");
+		Menu.StandartHeader("Úspěšné přidání spolupráce");
 		
 		System.out.printf(
 				"\t\t\t\t |         ID      ID       Spolupráce         |\n"+
@@ -308,14 +279,11 @@ public class Menu {
 				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", id_zamestnance, id_kolegy, urovenString
 			);
 		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	public static void VyberSkupiny() 
 	{
-
-		// TO DO: clear console
 		System.out.printf("\n\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
@@ -338,8 +306,6 @@ public class Menu {
 	public static void VyhledatZamestnance(int id, String jmeno, String prijmeni, 
 			int rokNarozeni, int skupina, Map<Integer, Integer> spoluprace) throws InterruptedException 
 	{
-
-		// TO DO: clear console
 		String zamereni;
 		if(skupina == 1)
 		{
@@ -391,13 +357,12 @@ public class Menu {
 	            "\t\t\t\t |                                             |\n"+
 	            "\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	public static void DovednostAnalytik(int id, int id_kolegy, int maxSpolupraci) throws InterruptedException
 	{
-		StandartHeader(String.format("Výsledek dovednosti zaměstanance ID%d", id));
+		StandartHeader(String.format("Výsledek dovednosti zaměstnance s ID %d", id));
 		System.out.printf(
 				"\t\t\t\t |           ID kolegy:   %-20d |\n"+
 				"\t\t\t\t |                                             |\n"+
@@ -407,14 +372,13 @@ public class Menu {
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", id_kolegy, maxSpolupraci
 			);
-		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	public static void DovednostBezpecnostni(int id, int score, int pocetSpolupraci) throws InterruptedException
 	{
-		StandartHeader(String.format("Výsledek dovednosti zaměstanance ID%d", id));
+		StandartHeader(String.format("Výsledek dovednosti zaměstnance s ID %d", id));
 		System.out.printf(
 				"\t\t\t\t |    Počet spoluprací:   %-20d |\n"+
 				"\t\t\t\t |                                             |\n"+
@@ -427,8 +391,7 @@ public class Menu {
 				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", pocetSpolupraci, score
 			);
 		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	public static void Seznam(List<Zamestnanec> databaze)
@@ -454,8 +417,7 @@ public class Menu {
 		System.out.printf(
 	            "\t\t\t\t |                                                                                                                    |\n"+
 	            "\t\t\t\t |                                      Do Hlavního menu se vrátíte stiskem ENTER                                     |\n"+
-	            "\t\t\t\t-+--------------------------------------------------------------------------------------------------------------------+-\n");
-		
+	            "\t\t\t\t-+--------------------------------------------------------------------------------------------------------------------+-\n");	
 	}
 	
 	public static void KvalitaSpoluprace(String spoluprace, int pocet) throws InterruptedException
@@ -470,8 +432,7 @@ public class Menu {
 				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", spoluprace, pocet/2
 			);
 		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	public static void NejviceSpolupraci(int ID, int pocet) throws InterruptedException
@@ -486,8 +447,7 @@ public class Menu {
 				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", ID, pocet
 			);
 		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	public static void PocetZamestnancuVeSkupinach(int datovych, int bezpec) throws InterruptedException
@@ -497,19 +457,13 @@ public class Menu {
 				"\t\t\t\t |         Datových Analytiků :   %-12d |\n"+
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t |  Bezpečnostních Specialistů:   %-12d |\n"+   
-				"\t\t\t\t |  --------------------------                 |\n"+
+				"\t\t\t\t |  ------------------------------------------ |\n"+
 				"\t\t\t\t |                      Celkem:   %-12d |\n"+   
 				"\t\t\t\t |                                             |\n"+
 				"\t\t\t\t-+---------------------------------------------+-\n"+
 				"\t\t\t\t |                                             |\n\n\n\n\n\n\n\n\n\n\n\n\n", datovych, bezpec, datovych+bezpec
 			);
 		
-		// wait 5 seconds
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
 	}
-	
-	
-	
-	
-
 }

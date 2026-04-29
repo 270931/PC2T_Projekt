@@ -347,8 +347,6 @@ public class Spravce
 	
 	public boolean vypisZamestnancu()
 	{
-		// Collator je classa přesně dělaná pro porovnávání stringů podle pravidel nějakého přirozeného jazyka a.k.a. CZ
-		// Collator beze jako data typ class Locale
 		@SuppressWarnings("deprecation")
 		Collator cz = Collator.getInstance(new Locale("cz", "CZ"));
 		
@@ -666,8 +664,17 @@ public class Spravce
 			Menu.GeneralError("Prázdná databáze", "Není možný zápis do sql, databáze je prázdná.");
 			return false;
 		}
+		try 
+		{
+			Statement stmt = pripojeni.createStatement();
+			stmt.executeUpdate("DELETE FROM Zamestnanci");
+			stmt.executeUpdate("DELETE FROM Spoluprace");
+		}
+		catch(SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}
 		int pocet = 0;
-        int spoluprace = 0;
 		for(Zamestnanec z : databaze) 
 		{
 			int id = z.ID;
@@ -703,17 +710,14 @@ public class Spravce
 	             System.out.println(e.getMessage());
 	        }  
 		}
-		spoluprace += insertSpoluprace();
+		insertSpoluprace();
 		Menu.StandartHeader(String.format("Bylo uloženo %d zaměstnanců.", pocet));
-        Menu.StandartHeader(String.format("Bylo uloženo %d spoluprací.", spoluprace));
 		TimeUnit.SECONDS.sleep(3);
 		return true;        
     }
 	
-	//chybi kontrola id_kolegy
-	public int insertSpoluprace() 
+	public void insertSpoluprace() 
 	{
-		int pocet = 0;
 		for(Zamestnanec z : databaze) 
 		{
 			int id_zamestnance = z.ID;
@@ -734,9 +738,7 @@ public class Spravce
 					e.printStackTrace();
 				}
 			});
-	        pocet = z.spoluprace.size();
 		}
-		return pocet;
 	}
 	
 //nacteni zaznamu na zacatku programu
@@ -748,7 +750,6 @@ public class Spravce
              Statement stmt = pripojeni.createStatement();
              ResultSet rs = stmt.executeQuery(sql);
              int pocet = 0;
-             int spoluprace = 0;
              
              while (rs.next()) 
 			{
@@ -773,11 +774,9 @@ public class Spravce
 						pocet += 1;
 					}
 				}
-				spoluprace += selectSpoluprace(id);
+				selectSpoluprace(id);
 			}
-            
             Menu.StandartHeader(String.format("Bylo načteno %d zaměstnanců.", pocet));
-            Menu.StandartHeader(String.format("Bylo načteno %d spoluprací.", spoluprace));
  			TimeUnit.SECONDS.sleep(3);
         } 
         catch (SQLException e) 
@@ -786,12 +785,11 @@ public class Spravce
         }
 	}
 	
-	public int selectSpoluprace(int id)
+	public void selectSpoluprace(int id)
 	{
 		String sql = String.format("SELECT id_zamestnance, id_kolegy, uroven_spoluprace FROM Spoluprace WHERE id_zamestnance=%d",id);
 		
 		Zamestnanec c = databaze.get(databaze.size()-1);
-		int pocet= 0;
 		try 
 		{
 			Statement stmt = pripojeni.createStatement();
@@ -802,13 +800,11 @@ public class Spravce
 				int id_kolegy = rs.getInt("id_kolegy");
 				int uroven = rs.getInt("uroven_spoluprace");
 				c.spoluprace.put(id_kolegy, uroven);
-				pocet++;
 			}
 		}
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
-		return pocet;
 	}
 }
