@@ -189,7 +189,6 @@ public class Menu {
 		}
 		
 		pad += header;
-		//
 		System.out.printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
 	            "\t\t\t\t |                                             |\n"+
 	            "\t\t\t\t-+---------------------------------------------+-\n"+

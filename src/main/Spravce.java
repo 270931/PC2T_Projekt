@@ -83,7 +83,7 @@ public class Spravce
 		{
 			sc.next();
 		}
-		//
+		
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
 		 	     		 "\t\t\t\t |                                             |\n");
 		if(skupina == 1) 
@@ -129,18 +129,28 @@ public class Spravce
 		}
 		int id_kolegy = sc.nextInt();
 		System.out.print("\t\t\t\t |                                             |\n");
+		int urovenSpoluprace;
 		
+		do
+		{
 		System.out.print("\t\t\t\t |  1 - špatná; 2 - průměrná; 3 - dobrá        |\n");
 		System.out.print("\t\t\t\t |                                             |\n");
 		System.out.print("\t\t\t\t |  Zadejte úroveň spolupráce (1-3): ");
 		
-		if (!sc.hasNextInt()) 
-		{ 
-			sc.next();
-			Menu.GeneralError("Neplatný vstup", "Zadejte prosím číslo 1-3.");
-			return false;
-		}
-		int urovenSpoluprace = sc.nextInt();
+			if (!sc.hasNextInt()) 
+			{ 
+				sc.next();
+				Menu.GeneralError("Neplatný vstup", "Zadejte prosím číslo 1-3.");
+				return false;
+			}
+			urovenSpoluprace = sc.nextInt();
+			if(urovenSpoluprace > 3)
+			{
+				System.out.printf("\t\t\t\t | Tato úroveň spolupráce není možná. \n");
+				System.out.print("\t\t\t\t |                                             |\n");
+			}
+		} while (urovenSpoluprace > 3);
+		
 		System.out.print("\t\t\t\t |                                             |\n");
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
 		 		 		 "\t\t\t\t |                                             |\n");
@@ -378,7 +388,7 @@ public class Spravce
 		}
 
 		int id = sc.nextInt();
-		//
+		
 		System.out.print("\t\t\t\t-+---------------------------------------------+-\n"+
 		 	     		 "\t\t\t\t |                                             |\n");
 		for(Zamestnanec z : databaze)
@@ -713,7 +723,7 @@ public class Spravce
 		return false;
 	}
 	
-//vlozeni zaznamu na konci programu
+
 	public boolean insert() throws InterruptedException 
 	{
 		if (databaze.isEmpty()) 
@@ -798,7 +808,7 @@ public class Spravce
 		}
 	}
 	
-//nacteni zaznamu na zacatku programu
+
 	public void selectAll() throws InterruptedException
 	{
         String sql = "SELECT id, jmeno, prijmeni, rokNarozeni, skupina FROM Zamestnanci";
